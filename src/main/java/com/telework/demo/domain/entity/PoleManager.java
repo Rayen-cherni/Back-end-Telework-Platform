@@ -1,4 +1,4 @@
-package com.telework.demo.model;
+package com.telework.demo.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,20 +13,18 @@ import java.io.Serializable;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "poleManager")
+public class PoleManager extends User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "firstname")
-    private String firstname;
 
-    @Column(name = "lastname")
-    private String lastname;
+    /********** RELATIONS ************/
 
-    @Column(name = "telNum")
-    private String telNum;
+    @OneToOne
+    private Pole pole;
+
 
 }
