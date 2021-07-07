@@ -12,5 +12,5 @@ public interface IHistoriqueService {
 
     List<HistoriqueDto> findAll();
 
-    void deleteById(Integer id);
+    void delete(Integer id);
 }

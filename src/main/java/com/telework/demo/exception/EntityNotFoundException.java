@@ -5,17 +5,13 @@ import lombok.Getter;
 public class EntityNotFoundException extends RuntimeException {
 
     @Getter
-    private ErrorMessages errorMessages;
-    @Getter
-    private Integer id;
+    private String errorMessages;
 
-    public EntityNotFoundException(ErrorMessages errorMessage) {
+
+    public EntityNotFoundException(String errorMessage) {
+        super(errorMessage);
         this.errorMessages = errorMessage;
     }
 
-    public EntityNotFoundException(ErrorMessages errorMessage, Integer id) {
-        this.errorMessages = errorMessage;
-        this.id = id;
-    }
 
 }

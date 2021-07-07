@@ -3,12 +3,15 @@ package com.telework.demo.services.Implementation;
 import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.ErrorMessages;
+import com.telework.demo.exception.InvalidOperationException;
 import com.telework.demo.repository.IProjectRepository;
 import com.telework.demo.services.IProjectService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.telework.demo.exception.ErrorMessages.PROJECT_NOT_FOUND;
 
 @Service
 public class ProjectService implements IProjectService {
@@ -21,15 +24,19 @@ public class ProjectService implements IProjectService {
 
     @Override
     public ProjectDto save(ProjectDto projectDto) {
-        //TODO test d'existance
-        // if(pole exist) we can't add him again
-        return ProjectDto.fromEntity(repository.save(ProjectDto.toEntity(projectDto)));
+        boolean isExist = repository.existsByName(projectDto.getName());
+        if (isExist) {
+            throw new InvalidOperationException(ErrorMessages.ROLE_ALREADY_EXISTS);
+        } else {
+            return ProjectDto.fromEntity(repository.save(ProjectDto.toEntity(projectDto)));
+
+        }
     }
 
     @Override
     public ProjectDto findById(Integer id) {
         return repository.findById(id).map(ProjectDto::fromEntity).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessages.PROJECT_NOT_FOUND, id)
+                () -> new EntityNotFoundException(PROJECT_NOT_FOUND + id)
         );
     }
 
@@ -40,10 +47,10 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void delete(Integer id) {
         ProjectDto projectDto = findById(id);
         if (projectDto == null) {
-            throw new EntityNotFoundException(ErrorMessages.PROJECT_NOT_FOUND, id);
+            throw new EntityNotFoundException(PROJECT_NOT_FOUND + id);
         }
         repository.deleteById(id);
     }

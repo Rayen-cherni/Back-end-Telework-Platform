@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class PoleDto {
 
+
     private Integer id;
 
     private String name;
@@ -26,9 +27,11 @@ public class PoleDto {
 
 
     public static PoleDto fromEntity(Pole pole) {
+
         if (pole == null) {
             return null;
         }
+
         return PoleDto.builder()
                 .id(pole.getId())
                 .name(pole.getName())

@@ -12,5 +12,5 @@ public interface IProjectService {
 
     List<ProjectDto> findAll();
 
-    void deleteById(Integer id);
+    void delete(Integer id);
 }

@@ -2,13 +2,14 @@ package com.telework.demo.services.Implementation;
 
 import com.telework.demo.domain.dto.HistoriqueDto;
 import com.telework.demo.exception.EntityNotFoundException;
-import com.telework.demo.exception.ErrorMessages;
 import com.telework.demo.repository.IHistoriqueRepository;
 import com.telework.demo.services.IHistoriqueService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.telework.demo.exception.ErrorMessages.HISTORIQUE_NOT_FOUND;
 
 @Service
 public class HistoriqueService implements IHistoriqueService {
@@ -27,7 +28,7 @@ public class HistoriqueService implements IHistoriqueService {
     @Override
     public HistoriqueDto findById(Integer id) {
         return repository.findById(id).map(HistoriqueDto::fromEntity).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessages.HISTORIQUE_NOT_FOUND, id)
+                () -> new EntityNotFoundException(HISTORIQUE_NOT_FOUND + id)
         );
     }
 
@@ -38,10 +39,10 @@ public class HistoriqueService implements IHistoriqueService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void delete(Integer id) {
         HistoriqueDto historiqueDto = findById(id);
         if (historiqueDto == null) {
-            throw new EntityNotFoundException(ErrorMessages.HISTORIQUE_NOT_FOUND, id);
+            throw new EntityNotFoundException(HISTORIQUE_NOT_FOUND + id);
         }
         repository.deleteById(id);
     }

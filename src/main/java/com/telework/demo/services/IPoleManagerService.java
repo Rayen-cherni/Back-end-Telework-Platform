@@ -12,6 +12,6 @@ public interface IPoleManagerService {
 
     List<PoleManagerDto> findAll();
 
-    void deleteById(Integer id);
+    void delete(Integer id);
 
 }

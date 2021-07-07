@@ -12,5 +12,5 @@ public interface IRoleService {
 
     List<RoleDto> findAll();
 
-    void deleteById(Integer id);
+    void delete(Integer id);
 }

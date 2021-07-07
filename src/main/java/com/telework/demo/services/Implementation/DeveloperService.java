@@ -5,26 +5,31 @@ import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.ErrorMessages;
 import com.telework.demo.exception.InvalidOperationException;
 import com.telework.demo.repository.IDeveloperRepository;
+import com.telework.demo.repository.IUserRepository;
 import com.telework.demo.services.IDeveloperService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.telework.demo.exception.ErrorMessages.DEVELOPER_NOT_FOUND;
+
 @Service
 public class DeveloperService implements IDeveloperService {
 
     private final IDeveloperRepository repository;
+    private final IUserRepository userRepository;
 
-    public DeveloperService(IDeveloperRepository repository) {
+    public DeveloperService(IDeveloperRepository repository, IUserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public DeveloperDto save(DeveloperDto dto) {
-        boolean isExist = repository.existsByEmail(dto.getEmail());
+        boolean isExist = userRepository.existsByEmail(dto.getEmail());
         if (isExist) {
-            throw new InvalidOperationException(ErrorMessages.DEVELOPER_ALREADY_EXISTS);
+            throw new InvalidOperationException(ErrorMessages.USER_ALREADY_EXISTS);
         } else {
             return DeveloperDto.fromEntity(repository.save(DeveloperDto.toEntity(dto)));
 
@@ -34,7 +39,7 @@ public class DeveloperService implements IDeveloperService {
     @Override
     public DeveloperDto findById(Integer id) {
         return repository.findById(id).map(DeveloperDto::fromEntity).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessages.DEVELOPER_NOT_FOUND, id)
+                () -> new EntityNotFoundException(DEVELOPER_NOT_FOUND + id)
         );
     }
 
@@ -48,7 +53,7 @@ public class DeveloperService implements IDeveloperService {
     public void deleteById(Integer id) {
         DeveloperDto developerDto = findById(id);
         if (developerDto == null) {
-            throw new EntityNotFoundException(ErrorMessages.DEVELOPER_NOT_FOUND, id);
+            throw new EntityNotFoundException(DEVELOPER_NOT_FOUND + id);
         }
         repository.deleteById(id);
     }

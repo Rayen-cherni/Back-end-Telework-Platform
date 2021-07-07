@@ -5,9 +5,10 @@ import lombok.Getter;
 public class InvalidOperationException extends RuntimeException {
 
     @Getter
-    private ErrorMessages errorMessages;
+    private String errorMessages;
 
-    public InvalidOperationException(ErrorMessages errorMessage) {
+    public InvalidOperationException(String errorMessage) {
+        super(errorMessage);
         this.errorMessages = errorMessage;
     }
 }
