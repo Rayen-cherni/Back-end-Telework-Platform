@@ -11,6 +11,7 @@ import java.util.List;
 import static com.telework.demo.utils.Constants.PROJECT_ENDPOINT;
 
 @RestController
+@RequestMapping(PROJECT_ENDPOINT)
 @Api(PROJECT_ENDPOINT)
 public class ProjectController {
 
@@ -21,26 +22,26 @@ public class ProjectController {
         this.service = service;
     }
 
-    @PostMapping(value = PROJECT_ENDPOINT + "/create",
+    @PostMapping(value = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     ProjectDto save(@RequestBody ProjectDto projectDto) {
         return service.save(projectDto);
     }
 
-    @GetMapping(value = PROJECT_ENDPOINT + "/filterById/{id}",
+    @GetMapping(value = "/filterById/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     ProjectDto findById(@PathVariable Integer id) {
         return service.findById(id);
     }
 
-    @GetMapping(value = PROJECT_ENDPOINT + "/findAll",
+    @GetMapping(value = "/findAll",
             produces = MediaType.APPLICATION_JSON_VALUE)
     List<ProjectDto> findAll() {
         return service.findAll();
     }
 
-    @DeleteMapping(PROJECT_ENDPOINT + "/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     void delete(@PathVariable Integer id) {
         service.delete(id);
     }

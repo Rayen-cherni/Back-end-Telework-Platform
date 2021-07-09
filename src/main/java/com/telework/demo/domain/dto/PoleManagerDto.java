@@ -15,7 +15,9 @@ public class PoleManagerDto extends UserDto {
     private Integer id;
 
     private PoleDto pole;
-
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
+    /*
     public static PoleManagerDto fromEntity(PoleManager poleManager) {
         if (poleManager == null) {
             return null;
@@ -59,4 +61,6 @@ public class PoleManagerDto extends UserDto {
         poleManager.setPole(PoleDto.toEntity(dto.getPole()));
         return poleManager;
     }
+
+     */
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import static com.telework.demo.utils.Constants.ROLE_ENDPOINT;
 
 @RestController
+@RequestMapping(ROLE_ENDPOINT)
 @Api(ROLE_ENDPOINT)
 public class RoleController {
 
@@ -20,26 +21,26 @@ public class RoleController {
         this.service = service;
     }
 
-    @PostMapping(value = ROLE_ENDPOINT + "/create",
+    @PostMapping(value = "/create",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     RoleDto save(@RequestBody RoleDto roleDto) {
         return service.save(roleDto);
     }
 
-    @GetMapping(value = ROLE_ENDPOINT + "/filterById/{id}",
+    @GetMapping(value = "/filterById/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     RoleDto findById(@PathVariable Integer id) {
         return service.findById(id);
     }
 
-    @GetMapping(value = ROLE_ENDPOINT + "/findAll",
+    @GetMapping(value ="/findAll",
             produces = MediaType.APPLICATION_JSON_VALUE)
     List<RoleDto> findAll() {
         return service.findAll();
     }
 
-    @DeleteMapping(value = ROLE_ENDPOINT + "/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     void delete(@PathVariable Integer id) {
         service.delete(id);
     }

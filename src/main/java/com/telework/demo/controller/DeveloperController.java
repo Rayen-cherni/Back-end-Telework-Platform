@@ -1,8 +1,10 @@
 package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.DeveloperDto;
+import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import com.telework.demo.services.IDeveloperService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.List;
 import static com.telework.demo.utils.Constants.DEVELOPER_ENDPOINT;
 
 @RestController
+@RequestMapping(DEVELOPER_ENDPOINT)
 @Api(DEVELOPER_ENDPOINT)
 public class DeveloperController {
 
@@ -20,27 +23,34 @@ public class DeveloperController {
         this.service = service;
     }
 
-    @PostMapping(value = DEVELOPER_ENDPOINT + "/create",
+    @PostMapping(value = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     DeveloperDto save(@RequestBody DeveloperDto dto) {
         return service.save(dto);
     }
 
-    @GetMapping(value = DEVELOPER_ENDPOINT + "/filterById/{id}",
+    @GetMapping(value = "/filterById/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     DeveloperDto findById(@PathVariable Integer id) {
         return service.findById(id);
     }
 
-    @GetMapping(value = DEVELOPER_ENDPOINT + "/findAll",
+    @GetMapping(value = "/findAll",
             produces = MediaType.APPLICATION_JSON_VALUE)
     List<DeveloperDto> findAll() {
         return service.findAll();
     }
 
-    @DeleteMapping(DEVELOPER_ENDPOINT + "/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     void delete(@PathVariable Integer id) {
         service.deleteById(id);
+    }
+
+    @PatchMapping(value = "/update/withHoldingType/{id}/{withHoldingType}")
+    @ApiOperation(value = "To update the holding status ")
+    DeveloperDto updateWithHoldingStatus(@PathVariable Integer id,
+                                         @PathVariable WithHoldingType withHoldingType) {
+        return service.updateWithHoldingStatus(id, withHoldingType);
     }
 }

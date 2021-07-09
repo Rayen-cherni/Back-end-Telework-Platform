@@ -26,6 +26,9 @@ public class HistoriqueDto {
 
     private DeveloperDto developer;
 
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
+    /*
     public static HistoriqueDto fromEntity(Historique historique) {
         if (historique == null) {
             return null;
@@ -54,4 +57,6 @@ public class HistoriqueDto {
         historique.setDeveloper(DeveloperDto.toEntity(dto.getDeveloper()));
         return historique;
     }
+
+     */
 }

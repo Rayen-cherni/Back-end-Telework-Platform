@@ -1,6 +1,5 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.Developer;
 import com.telework.demo.domain.entity.Historique;
 import com.telework.demo.domain.entity.Project;
 import lombok.AllArgsConstructor;
@@ -22,6 +21,10 @@ public class DeveloperDto extends UserDto {
 
     private List<Historique> historiques;
 
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
+
+    /*
     public static DeveloperDto fromEntity(Developer developer) {
         if (developer == null) {
             return null;
@@ -62,4 +65,6 @@ public class DeveloperDto extends UserDto {
         developer.setWithHoldingType(dto.getWithHoldingType());
         return developer;
     }
+
+     */
 }

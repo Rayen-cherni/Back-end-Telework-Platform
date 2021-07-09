@@ -1,6 +1,5 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.ProjectManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,7 @@ public class ProjectManagerDto extends UserDto {
 
     private List<ProjectDto> projects;
 
+    /*
     public static ProjectManagerDto fromEntity(ProjectManager projectManager) {
         if (projectManager == null) {
             return null;
@@ -58,4 +58,6 @@ public class ProjectManagerDto extends UserDto {
         projectManager.setWithHoldingType(dto.getWithHoldingType());
         return projectManager;
     }
+
+     */
 }

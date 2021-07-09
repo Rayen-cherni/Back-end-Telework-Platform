@@ -1,6 +1,5 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +20,10 @@ public class ProjectDto {
     private List<DeveloperDto> developers;
 
     private ProjectManagerDto projectManager;
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
 
+    /*
     public static ProjectDto fromEntity(Project project) {
         if (project == null) {
             return null;
@@ -44,4 +46,6 @@ public class ProjectDto {
 
         return project;
     }
+
+     */
 }

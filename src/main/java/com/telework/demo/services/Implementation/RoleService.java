@@ -1,10 +1,13 @@
 package com.telework.demo.services.Implementation;
 
 import com.telework.demo.domain.dto.RoleDto;
+import com.telework.demo.domain.entity.Role;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.InvalidOperationException;
 import com.telework.demo.repository.IRoleRepository;
 import com.telework.demo.services.IRoleService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,9 @@ public class RoleService implements IRoleService {
 
     private final IRoleRepository repository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public RoleService(IRoleRepository repository) {
         this.repository = repository;
     }
@@ -28,22 +34,26 @@ public class RoleService implements IRoleService {
         if (isExist) {
             throw new InvalidOperationException(ROLE_ALREADY_EXISTS);
         } else {
-            return RoleDto.fromEntity(repository.save(RoleDto.toEntity(roleDto)));
 
+            return modelMapper.map(repository.save(modelMapper.map(roleDto, Role.class)), RoleDto.class);
         }
     }
 
     @Override
     public RoleDto findById(Integer id) {
-        return repository.findById(id).map(RoleDto::fromEntity).orElseThrow(
-                () -> new EntityNotFoundException(ROLE_NOT_FOUND + id)
-        );
+        return repository.findById(id).map(role -> modelMapper
+                .map(role, RoleDto.class))
+                .orElseThrow(
+                        () -> new EntityNotFoundException(ROLE_NOT_FOUND + id)
+                );
     }
 
     @Override
     public List<RoleDto> findAll() {
         return repository.findAll().stream()
-                .map(RoleDto::fromEntity).collect(Collectors.toList());
+                .map(role -> modelMapper
+                        .map(role, RoleDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface IPoleService {
 
-    //PoleDto save(PoleDto poleDto);
     PoleDto save(CreatePoleForm poleForm);
 
     PoleDto findById(Integer id);
@@ -15,4 +14,14 @@ public interface IPoleService {
     List<PoleDto> findAll();
 
     void delete(Integer id);
+
+    PoleDto updateName(Integer id, String name);
+
+    PoleDto updateDescription(Integer id, String description);
+
+    PoleDto updateCapacity(Integer id, Integer capacity);
+
+    PoleDto updateReserved(Integer id, Integer reserved);
+
+    PoleDto updatePoleManager(Integer id, Integer idPoleManager);
 }

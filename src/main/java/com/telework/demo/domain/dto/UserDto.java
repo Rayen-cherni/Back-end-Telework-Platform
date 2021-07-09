@@ -1,6 +1,5 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.User;
 import com.telework.demo.domain.entity.enumeration.UserStatus;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 public class UserDto {
+
     private Integer id;
 
     private String firstname;
@@ -37,6 +37,9 @@ public class UserDto {
 
     private RoleDto role;
 
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
+    /*
     public static UserDto fromEntity(User user) {
         if (user == null) {
             return null;
@@ -78,4 +81,6 @@ public class UserDto {
         user.setRole(RoleDto.toEntity(dto.getRole()));
         return user;
     }
+
+     */
 }

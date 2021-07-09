@@ -1,11 +1,14 @@
 package com.telework.demo.services.Implementation;
 
 import com.telework.demo.domain.dto.ProjectDto;
+import com.telework.demo.domain.entity.Project;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.ErrorMessages;
 import com.telework.demo.exception.InvalidOperationException;
 import com.telework.demo.repository.IProjectRepository;
 import com.telework.demo.services.IProjectService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,9 @@ public class ProjectService implements IProjectService {
 
     private final IProjectRepository repository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public ProjectService(IProjectRepository repository) {
         this.repository = repository;
     }
@@ -28,22 +34,26 @@ public class ProjectService implements IProjectService {
         if (isExist) {
             throw new InvalidOperationException(ErrorMessages.ROLE_ALREADY_EXISTS);
         } else {
-            return ProjectDto.fromEntity(repository.save(ProjectDto.toEntity(projectDto)));
 
+            return modelMapper.map(repository.save(modelMapper.map(projectDto, Project.class)), ProjectDto.class);
         }
     }
 
     @Override
     public ProjectDto findById(Integer id) {
-        return repository.findById(id).map(ProjectDto::fromEntity).orElseThrow(
-                () -> new EntityNotFoundException(PROJECT_NOT_FOUND + id)
-        );
+        return repository.findById(id).map(project -> modelMapper
+                .map(project, ProjectDto.class))
+                .orElseThrow(
+                        () -> new EntityNotFoundException(PROJECT_NOT_FOUND + id)
+                );
     }
 
     @Override
     public List<ProjectDto> findAll() {
         return repository.findAll().stream()
-                .map(ProjectDto::fromEntity).collect(Collectors.toList());
+                .map(project -> modelMapper
+                        .map(project, ProjectDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override

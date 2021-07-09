@@ -1,6 +1,5 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +13,10 @@ public class AdminDto extends UserDto {
 
     private Integer id;
 
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
+
+    /*
     public static AdminDto fromEntity(Admin admin) {
         if (admin == null) {
             return null;
@@ -53,4 +56,8 @@ public class AdminDto extends UserDto {
         admin.setRole(RoleDto.toEntity(dto.getRole()));
         return admin;
     }
+
+     */
+
+
 }

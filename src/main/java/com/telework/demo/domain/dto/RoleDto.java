@@ -1,6 +1,5 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +18,9 @@ public class RoleDto {
 
     private List<UserDto> users;
 
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
+        /*
     public static RoleDto fromEntity(Role role) {
 
         if (role == null) {
@@ -40,4 +42,6 @@ public class RoleDto {
         role.setRoleName(dto.getRoleName());
         return role;
     }
+
+         */
 }

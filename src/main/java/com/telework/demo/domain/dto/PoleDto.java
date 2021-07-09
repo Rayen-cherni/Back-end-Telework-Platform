@@ -1,6 +1,5 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.Pole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +24,9 @@ public class PoleDto {
 
     private PoleManagerDto poleManager;
 
-
+    //README
+    //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
+    /*
     public static PoleDto fromEntity(Pole pole) {
 
         if (pole == null) {
@@ -57,4 +58,6 @@ public class PoleDto {
         pole.setPoleManager(PoleManagerDto.toEntity(dto.getPoleManager()));
         return pole;
     }
+
+     */
 }
