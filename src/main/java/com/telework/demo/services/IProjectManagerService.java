@@ -1,5 +1,6 @@
 package com.telework.demo.services;
 
+import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 
@@ -16,4 +17,8 @@ public interface IProjectManagerService {
     void delete(Integer id);
 
     ProjectManagerDto updateWithHoldingStatus(Integer id, WithHoldingType withHoldingType);
+
+    //** Original **
+    // List<DeveloperDto> getAllDevelopersByProjectManager(Integer idProjectManager);
+    List<ProjectDto> getAllDevelopersByProjectManager(Integer idProjectManager);
 }

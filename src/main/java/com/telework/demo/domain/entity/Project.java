@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,8 +26,10 @@ public class Project implements Serializable {
     @Column(name = "name")
     private String name;
 
+
     /********** RELATIONS ************/
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.JOIN)
     @JoinTable(name = "projects_developers_association",
             joinColumns = @JoinColumn(name = "idProject"),
             inverseJoinColumns = @JoinColumn(name = "idDeveloper"))

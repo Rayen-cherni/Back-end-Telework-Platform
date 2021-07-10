@@ -22,7 +22,7 @@ public class ProjectManager extends User implements Serializable {
     private Integer id;
 
     /********** RELATIONS ************/
-    @OneToMany(mappedBy = "projectManager")
+    @OneToMany(mappedBy = "projectManager",fetch = FetchType.EAGER)
     private List<Project> projects;
 
     /** IS NOT USED **/

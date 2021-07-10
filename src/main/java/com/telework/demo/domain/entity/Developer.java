@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,14 +26,18 @@ public class Developer extends User implements Serializable {
 
     /********** RELATIONS ************/
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "projects_developers_association",
             joinColumns = @JoinColumn(name = "idDeveloper"),
             inverseJoinColumns = @JoinColumn(name = "idProject"))
+    @Fetch(value = FetchMode.JOIN)
     private List<Project> projects;
 
     @OneToMany(mappedBy = "developer",
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE)
+    @Fetch(FetchMode.SUBSELECT)
+    //@LazyCollection(LazyCollectionOption.FALSE)
     private List<Historique> historiques;
 
     /** IS NOT USED **/

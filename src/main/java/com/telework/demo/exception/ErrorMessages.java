@@ -35,6 +35,7 @@ public interface ErrorMessages {
 
     String DEVELOPER_NOT_FOUND = "Developer not found with id: ";
     String DEVELOPER_ALREADY_EXISTS = "Developer already exist ";
+    String DEVELOPER_OUT_OF_SERVICE = "Developer temporarily out of service ";
 
     String HISTORIQUE_NOT_FOUND = "Histroqiue not found with id: ";
 
@@ -48,6 +49,7 @@ public interface ErrorMessages {
     String PROJECT_MANAGER_ALREADY_EXISTS = "project manager already exist ";
 
     String PROJECT_NOT_FOUND = "project not found with id: ";
+    String PROJECT_ALREADY_EXISTS = "project already exist ";
 
     String ROLE_NOT_FOUND = "role not found with id: ";
     String ROLE_ALREADY_EXISTS = "role already exist ";

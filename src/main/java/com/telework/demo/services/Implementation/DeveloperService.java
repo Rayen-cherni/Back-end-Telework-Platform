@@ -21,12 +21,16 @@ import static com.telework.demo.exception.ErrorMessages.DEVELOPER_NOT_FOUND;
 @Service
 public class DeveloperService implements IDeveloperService {
 
+    private final IDeveloperRepository repository;
+    private final IUserRepository userRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private IDeveloperRepository repository;
-    @Autowired
-    private IUserRepository userRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    public DeveloperService(IDeveloperRepository repository, IUserRepository userRepository, ModelMapper modelMapper) {
+        this.repository = repository;
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public DeveloperDto save(DeveloperDto dto) {
@@ -41,16 +45,22 @@ public class DeveloperService implements IDeveloperService {
 
     @Override
     public DeveloperDto findById(Integer id) {
-        return repository.findById(id).map(developer -> modelMapper.map(developer, DeveloperDto.class)).orElseThrow(
-                () -> new EntityNotFoundException(DEVELOPER_NOT_FOUND + id)
-        );
-
+        return repository.findById(id)
+                .map((developer -> modelMapper.
+                        map(developer, DeveloperDto.class)))
+                .orElseThrow(
+                        () -> new EntityNotFoundException(DEVELOPER_NOT_FOUND + id)
+                );
     }
 
     @Override
     public List<DeveloperDto> findAll() {
-        return repository.findAll().stream()
-                .map((developer -> modelMapper.map(developer, DeveloperDto.class))).collect(Collectors.toList());
+
+        return repository.findAll()
+                .stream()
+                .map((developer -> modelMapper.map(developer, DeveloperDto.class)))
+                .collect(Collectors.toList())
+                ;
     }
 
     @Override
@@ -67,6 +77,8 @@ public class DeveloperService implements IDeveloperService {
         DeveloperDto developerDto = findById(id);
         developerDto.setWithHoldingType(withHoldingType);
 
-        return modelMapper.map(repository.save(modelMapper.map(developerDto, Developer.class)), DeveloperDto.class);
+        return modelMapper
+                .map(repository.save(modelMapper
+                        .map(developerDto, Developer.class)), DeveloperDto.class);
     }
 }

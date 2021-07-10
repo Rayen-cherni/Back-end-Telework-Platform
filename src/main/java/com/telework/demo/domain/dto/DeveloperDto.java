@@ -1,13 +1,12 @@
 package com.telework.demo.domain.dto;
 
-import com.telework.demo.domain.entity.Historique;
-import com.telework.demo.domain.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 @SuperBuilder
 @AllArgsConstructor
@@ -17,9 +16,9 @@ public class DeveloperDto extends UserDto {
 
     private Integer id;
 
-    private List<Project> projects;
+    private List<ProjectDto> projects;
 
-    private List<Historique> historiques;
+    private List<HistoriqueDto> historiques;
 
     //README
     //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper

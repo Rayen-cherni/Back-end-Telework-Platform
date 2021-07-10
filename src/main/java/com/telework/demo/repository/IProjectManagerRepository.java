@@ -1,6 +1,6 @@
 package com.telework.demo.repository;
 
-import com.telework.demo.domain.entity.PoleManager;
+import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.entity.ProjectManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 

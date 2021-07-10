@@ -1,5 +1,6 @@
 package com.telework.demo.services.Implementation;
 
+import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.ProjectManager;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
@@ -21,13 +22,17 @@ import static com.telework.demo.exception.ErrorMessages.USER_ALREADY_EXISTS;
 @Service
 public class ProjectManagerService implements IProjectManagerService {
 
-    @Autowired
-    private IProjectManagerRepository repository;
-    @Autowired
-    private IUserRepository userRepository;
+    private final IProjectManagerRepository repository;
+    private final IUserRepository userRepository;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public ProjectManagerService(IProjectManagerRepository repository, IUserRepository userRepository, ModelMapper modelMapper) {
+        this.repository = repository;
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ProjectManagerDto save(ProjectManagerDto projectManagerDto) {
@@ -53,9 +58,10 @@ public class ProjectManagerService implements IProjectManagerService {
 
     @Override
     public List<ProjectManagerDto> findAll() {
+        //FIXME
         return repository.findAll().stream()
-                .map(projectManager -> modelMapper
-                        .map(projectManager, ProjectManagerDto.class)).collect(Collectors.toList());
+                .map((projectManager -> modelMapper
+                        .map(projectManager, ProjectManagerDto.class))).collect(Collectors.toList());
     }
 
     @Override
@@ -73,5 +79,13 @@ public class ProjectManagerService implements IProjectManagerService {
         projectManagerDto.setWithHoldingType(withHoldingType);
 
         return modelMapper.map(repository.save(modelMapper.map(projectManagerDto, ProjectManager.class)), ProjectManagerDto.class);
+    }
+
+    @Override
+    public List<ProjectDto> getAllDevelopersByProjectManager(Integer idProjectManager) {
+        ProjectManagerDto projectManager = findById(idProjectManager);
+        List<ProjectDto> projectDtos = projectManager.getProjects();
+
+        return projectDtos;
     }
 }

@@ -47,15 +47,11 @@ public class PoleService implements IPoleService {
             throw new InvalidOperationException(POLE_MANAGER_NOT_FOUND);
         }
 
-        //FIXME
-        // est ce que on a besion d'implementer le teste pour connaitre
-        // est ce que le pole manager est deja manager une autre pole ou pas !
-        // vu que la relation est OneToOne entre le pole et le manager !!
         if (optionalPoleManager.get().getPole() != null) {
             throw new InvalidOperationException(POLE_MANAGER_ALREADY_IN_USE);
         }
         PoleManagerDto poleManagerDto = modelMapper.map(optionalPoleManager.get(), PoleManagerDto.class);
-        PoleDto poleDto = CreatePoleForm.fromEntity(poleForm, poleManagerDto);
+        PoleDto poleDto = CreatePoleForm.convertToPoleDto(poleForm, poleManagerDto);
 
         boolean isExist = repository.existsByName(poleDto.getName());
         if (isExist) {

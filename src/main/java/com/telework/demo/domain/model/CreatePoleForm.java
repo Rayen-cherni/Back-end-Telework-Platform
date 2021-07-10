@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class CreatePoleForm {
 
-    private Integer id;
-
     private String name;
 
     private String description;
@@ -24,7 +22,7 @@ public class CreatePoleForm {
     private Integer poleManagerId;
 
 
-    public static PoleDto fromEntity(CreatePoleForm poleForm, PoleManagerDto poleManagerDto) {
+    public static PoleDto convertToPoleDto(CreatePoleForm poleForm, PoleManagerDto poleManagerDto) {
 
         PoleDto poleDto = PoleDto.builder()
                 .name(poleForm.getName())

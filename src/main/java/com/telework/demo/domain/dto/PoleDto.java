@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class PoleDto {
 
-
     private Integer id;
 
     private String name;

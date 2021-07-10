@@ -1,36 +1,61 @@
 package com.telework.demo.services.Implementation;
 
+import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.HistoriqueDto;
+import com.telework.demo.domain.entity.Developer;
 import com.telework.demo.domain.entity.Historique;
+import com.telework.demo.domain.entity.enumeration.Decision;
+import com.telework.demo.domain.entity.enumeration.WithHoldingType;
+import com.telework.demo.domain.model.CreateHistoriqueForm;
 import com.telework.demo.exception.EntityNotFoundException;
+import com.telework.demo.exception.InvalidOperationException;
+import com.telework.demo.repository.IDeveloperRepository;
 import com.telework.demo.repository.IHistoriqueRepository;
+import com.telework.demo.repository.IUserRepository;
 import com.telework.demo.services.IHistoriqueService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.telework.demo.exception.ErrorMessages.HISTORIQUE_NOT_FOUND;
+import static com.telework.demo.exception.ErrorMessages.*;
 
 @Service
 public class HistoriqueService implements IHistoriqueService {
 
     private final IHistoriqueRepository repository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final IDeveloperRepository developerRepository;
 
-    public HistoriqueService(IHistoriqueRepository repository) {
+    public HistoriqueService(IHistoriqueRepository repository,
+                             ModelMapper modelMapper,
+                             IDeveloperRepository developerRepository,
+                             IUserRepository userRepository) {
         this.repository = repository;
-
+        this.developerRepository = developerRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public HistoriqueDto save(HistoriqueDto dto) {
+    @Transactional
+    public HistoriqueDto save(CreateHistoriqueForm historiqueForm) {
 
-        return modelMapper.map(repository.save(modelMapper.map(dto, Historique.class)), HistoriqueDto.class);
+        Optional<Developer> optionalDeveloper = developerRepository.findById(historiqueForm.getDeveloperId());
+        if (optionalDeveloper.isEmpty()) {
+            throw new InvalidOperationException(DEVELOPER_NOT_FOUND);
+        }
+
+        HistoriqueDto historiqueDto = CreateHistoriqueForm
+                .convertToHistoriqueDto(historiqueForm, modelMapper.map(optionalDeveloper.get(), DeveloperDto.class));
+
+        return modelMapper
+                .map(repository
+                        .save(modelMapper
+                                .map(historiqueDto, Historique.class)), HistoriqueDto.class);
     }
 
     @Override
@@ -43,9 +68,11 @@ public class HistoriqueService implements IHistoriqueService {
 
     @Override
     public List<HistoriqueDto> findAll() {
-        return repository.findAll().stream()
-                .map(historique -> modelMapper.
-                        map(historique, HistoriqueDto.class))
+        return repository
+                .findAll()
+                .stream()
+                .map(historique -> modelMapper
+                        .map(historique, HistoriqueDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -56,5 +83,43 @@ public class HistoriqueService implements IHistoriqueService {
             throw new EntityNotFoundException(HISTORIQUE_NOT_FOUND + id);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public HistoriqueDto updateDecisionProjectManager(Integer idHistorique, Integer idDeveloper, Decision decision) {
+        HistoriqueDto historiqueDto = findById(idHistorique);
+        checkDeveloperStatus(idDeveloper);
+        historiqueDto.setProjectManagerDecision(decision);
+        return modelMapper
+                .map(repository
+                        .save(modelMapper
+                                .map(historiqueDto, Historique.class)), HistoriqueDto.class);
+    }
+
+    @Override
+    @Transactional
+    public HistoriqueDto updateDecisionPoleManager(Integer idHistorique, Integer idDeveloper, Decision decision) {
+        HistoriqueDto historiqueDto = findById(idHistorique);
+        checkDeveloperStatus(idDeveloper);
+        historiqueDto.setPoleManagerDecision(decision);
+        return modelMapper
+                .map(repository
+                        .save(modelMapper
+                                .map(historiqueDto, Historique.class)), HistoriqueDto.class);
+    }
+
+    // Just to check the developer status and inform the project manager in case he is out of service
+    private void checkDeveloperStatus(Integer idDeveloper) {
+        Optional<Developer> optionalDeveloper = developerRepository.findById(idDeveloper);
+        if (optionalDeveloper.isEmpty()) {
+            throw new InvalidOperationException(DEVELOPER_NOT_FOUND);
+        }
+        WithHoldingType withHoldingTypeDeveloper = optionalDeveloper.get().getWithHoldingType();
+        if (withHoldingTypeDeveloper == WithHoldingType.IN_VACATION ||
+                withHoldingTypeDeveloper == WithHoldingType.SICK_DAYS ||
+                withHoldingTypeDeveloper == WithHoldingType.SUSPENSION) {
+            throw new InvalidOperationException(DEVELOPER_OUT_OF_SERVICE);
+        }
     }
 }

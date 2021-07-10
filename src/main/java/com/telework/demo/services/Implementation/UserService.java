@@ -57,7 +57,7 @@ public class UserService implements IUserService {
         User user = repository.findById(id).get();
         user.setUserStatus(userStatus);
 
-        return modelMapper.map(repository.save(modelMapper.map(user, User.class)), UserDto.class);
+        return modelMapper.map(repository.save(user), UserDto.class);
     }
 
     @Override

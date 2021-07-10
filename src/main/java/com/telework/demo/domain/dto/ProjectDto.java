@@ -1,5 +1,6 @@
 package com.telework.demo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,14 +13,16 @@ import java.util.List;
 @Builder
 @Data
 public class ProjectDto {
-    private Integer id;
 
+    private Integer id;
 
     private String name;
 
+    @JsonIgnore
     private List<DeveloperDto> developers;
 
     private ProjectManagerDto projectManager;
+
     //README
     //We replace the implementation of toEntity() && fromEntity() functions by ModelMapper
 

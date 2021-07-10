@@ -1,5 +1,6 @@
 package com.telework.demo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,10 @@ import java.util.List;
 @Data
 @SuperBuilder
 public class ProjectManagerDto extends UserDto {
+
     private Integer id;
 
+    @JsonIgnore
     private List<ProjectDto> projects;
 
     /*

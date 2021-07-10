@@ -1,7 +1,7 @@
 package com.telework.demo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.telework.demo.domain.entity.enumeration.Decision;
-import com.telework.demo.domain.entity.Historique;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +14,7 @@ import java.time.Instant;
 @Builder
 @Data
 public class HistoriqueDto {
+
     private Integer id;
 
     private Instant startingDate;
@@ -24,6 +25,7 @@ public class HistoriqueDto {
 
     private Decision poleManagerDecision;
 
+    @JsonIgnore
     private DeveloperDto developer;
 
     //README

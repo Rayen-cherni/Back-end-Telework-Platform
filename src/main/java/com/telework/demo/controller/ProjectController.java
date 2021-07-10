@@ -1,6 +1,7 @@
 package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.ProjectDto;
+import com.telework.demo.domain.model.CreateProjectForm;
 import com.telework.demo.services.IProjectService;
 import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
@@ -25,8 +26,8 @@ public class ProjectController {
     @PostMapping(value = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ProjectDto save(@RequestBody ProjectDto projectDto) {
-        return service.save(projectDto);
+    ProjectDto save(@RequestBody CreateProjectForm projectForm) {
+        return service.save(projectForm);
     }
 
     @GetMapping(value = "/filterById/{id}",

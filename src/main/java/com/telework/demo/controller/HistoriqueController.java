@@ -1,6 +1,7 @@
 package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.HistoriqueDto;
+import com.telework.demo.domain.model.CreateHistoriqueForm;
 import com.telework.demo.services.IHistoriqueService;
 import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
@@ -24,8 +25,8 @@ public class HistoriqueController {
     @PostMapping(value = "/create",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    HistoriqueDto save(@RequestBody HistoriqueDto dto) {
-        return service.save(dto);
+    HistoriqueDto save(@RequestBody CreateHistoriqueForm historiqueForm) {
+        return service.save(historiqueForm);
     }
 
     @GetMapping(value = "/filterById/{id}",

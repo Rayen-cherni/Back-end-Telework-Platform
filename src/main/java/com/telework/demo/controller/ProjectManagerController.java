@@ -1,5 +1,6 @@
 package com.telework.demo.controller;
 
+import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import com.telework.demo.services.IProjectManagerService;
@@ -54,5 +55,10 @@ public class ProjectManagerController {
     ProjectManagerDto updateWithHoldingStatus(@PathVariable Integer id,
                                               @PathVariable WithHoldingType withHoldingType) {
         return service.updateWithHoldingStatus(id, withHoldingType);
+    }
+
+    @GetMapping(value = "/findProjectsByIdProjectManager/{id}")
+    public List<ProjectDto> getAllDevelopersByProjectManager(@PathVariable("id") Integer idProjectManager) {
+        return service.getAllDevelopersByProjectManager(idProjectManager);
     }
 }

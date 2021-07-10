@@ -41,6 +41,8 @@ public class RoleService implements IRoleService {
 
     @Override
     public RoleDto findById(Integer id) {
+        //FIXME
+        // dans le cas ou il existe un role ( on a une role avec ID 4 )
         return repository.findById(id).map(role -> modelMapper
                 .map(role, RoleDto.class))
                 .orElseThrow(
@@ -50,14 +52,17 @@ public class RoleService implements IRoleService {
 
     @Override
     public List<RoleDto> findAll() {
+        //FIXME
         return repository.findAll().stream()
-                .map(role -> modelMapper
-                        .map(role, RoleDto.class))
+                .map((role -> modelMapper
+                        .map(role, RoleDto.class)))
                 .collect(Collectors.toList());
+
     }
 
     @Override
     public void delete(Integer id) {
+        //FIXME dans le cas ou il existe un role !!
         RoleDto roleDto = findById(id);
         if (roleDto == null) {
             throw new EntityNotFoundException(ROLE_NOT_FOUND + id);
