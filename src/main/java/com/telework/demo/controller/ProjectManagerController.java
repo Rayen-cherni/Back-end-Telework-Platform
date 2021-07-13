@@ -1,5 +1,6 @@
 package com.telework.demo.controller;
 
+import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
@@ -58,7 +59,8 @@ public class ProjectManagerController {
     }
 
     @GetMapping(value = "/findProjectsByIdProjectManager/{id}")
-    public List<ProjectDto> getAllDevelopersByProjectManager(@PathVariable("id") Integer idProjectManager) {
+    @ApiOperation(value = "To get all developers by project manager ")
+    public List<List<DeveloperDto>> getAllDevelopersByProjectManager(@PathVariable("id") Integer idProjectManager) {
         return service.getAllDevelopersByProjectManager(idProjectManager);
     }
 }

@@ -23,4 +23,6 @@ public interface Constants {
 
     String HISTORIQUE_ENDPOINT = APP_ROOT + "/historique";
 
+    String LOGIN_ENDPOINT = APP_ROOT + "/authentication";
+
 }

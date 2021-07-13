@@ -1,20 +1,18 @@
-package com.telework.demo.domain.dto;
+package com.telework.demo.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.telework.demo.domain.dto.RoleDto;
 import com.telework.demo.domain.entity.enumeration.UserStatus;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 @Data
-public class UserDto {
-
-    private Integer id;
+public class CreateUserForm {
 
     private String firstname;
 
@@ -22,7 +20,6 @@ public class UserDto {
 
     private String email;
 
-    @JsonIgnore
     private String password;
 
     private String telNum;
@@ -31,13 +28,7 @@ public class UserDto {
 
     private UserStatus userStatus;
 
-    private Integer presential;
-
-    private Integer remote;
-
     private WithHoldingType withHoldingType;
 
-    private RoleDto role;
-
-
+    private String role;
 }

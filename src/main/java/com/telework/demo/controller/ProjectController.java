@@ -46,4 +46,10 @@ public class ProjectController {
     void delete(@PathVariable Integer id) {
         service.delete(id);
     }
+
+    @PatchMapping("/updateAssignement/{idProject}/{idDeveloper}")
+    void assignementOfDeveloper(@PathVariable Integer idProject,
+                                @PathVariable Integer idDeveloper) {
+        service.assignementOfDeveloper(idProject, idDeveloper);
+    }
 }

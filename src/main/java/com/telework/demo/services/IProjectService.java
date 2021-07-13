@@ -14,4 +14,6 @@ public interface IProjectService {
     List<ProjectDto> findAll();
 
     void delete(Integer id);
+
+    ProjectDto assignementOfDeveloper(Integer idProject, Integer idDeveloper);
 }

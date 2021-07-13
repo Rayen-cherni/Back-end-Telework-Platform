@@ -1,5 +1,6 @@
 package com.telework.demo.services.Implementation;
 
+import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.ProjectManager;
@@ -58,7 +59,6 @@ public class ProjectManagerService implements IProjectManagerService {
 
     @Override
     public List<ProjectManagerDto> findAll() {
-        //FIXME
         return repository.findAll().stream()
                 .map((projectManager -> modelMapper
                         .map(projectManager, ProjectManagerDto.class))).collect(Collectors.toList());
@@ -82,10 +82,15 @@ public class ProjectManagerService implements IProjectManagerService {
     }
 
     @Override
-    public List<ProjectDto> getAllDevelopersByProjectManager(Integer idProjectManager) {
+    public List<List<DeveloperDto>> getAllDevelopersByProjectManager(Integer idProjectManager) {
+        // TODO refactoring
         ProjectManagerDto projectManager = findById(idProjectManager);
         List<ProjectDto> projectDtos = projectManager.getProjects();
+        List<List<DeveloperDto>> developers = projectDtos
+                .stream()
+                .map(projectDto -> projectDto.getDevelopers())
+                .collect(Collectors.toList());
 
-        return projectDtos;
+        return developers;
     }
 }

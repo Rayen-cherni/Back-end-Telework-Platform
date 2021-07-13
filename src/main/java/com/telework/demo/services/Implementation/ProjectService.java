@@ -1,13 +1,16 @@
 package com.telework.demo.services.Implementation;
 
+import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
+import com.telework.demo.domain.entity.Developer;
 import com.telework.demo.domain.entity.Project;
 import com.telework.demo.domain.entity.ProjectManager;
 import com.telework.demo.domain.model.CreateProjectForm;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.ErrorMessages;
 import com.telework.demo.exception.InvalidOperationException;
+import com.telework.demo.repository.IDeveloperRepository;
 import com.telework.demo.repository.IProjectManagerRepository;
 import com.telework.demo.repository.IProjectRepository;
 import com.telework.demo.services.IProjectService;
@@ -20,22 +23,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.telework.demo.exception.ErrorMessages.PROJECT_MANAGER_NOT_FOUND;
-import static com.telework.demo.exception.ErrorMessages.PROJECT_NOT_FOUND;
+import static com.telework.demo.exception.ErrorMessages.*;
 
 @Service
 public class ProjectService implements IProjectService {
 
-    private final IProjectRepository repository;
-    private final IProjectManagerRepository projectManagerRepository;
-
+    @Autowired
+    private IProjectRepository repository;
+    @Autowired
+    private IProjectManagerRepository projectManagerRepository;
+    @Autowired
+    private IDeveloperRepository developerRepository;
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProjectService(IProjectRepository repository, IProjectManagerRepository projectManagerRepository) {
-        this.repository = repository;
-        this.projectManagerRepository = projectManagerRepository;
-    }
 
     @Override
     @Transactional
@@ -82,6 +83,37 @@ public class ProjectService implements IProjectService {
             throw new EntityNotFoundException(PROJECT_NOT_FOUND + id);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public ProjectDto assignementOfDeveloper(Integer idProject, Integer idDeveloper) {
+        ProjectDto projectDto = findById(idProject);
+        Optional<Developer> optionalDeveloper = developerRepository.findById(idDeveloper);
+
+        if (optionalDeveloper.isEmpty()) {
+            throw new InvalidOperationException(DEVELOPER_NOT_FOUND);
+        }
+        DeveloperDto developerDto = modelMapper.map(optionalDeveloper.get(), DeveloperDto.class);
+        List<DeveloperDto> developerDtosList = projectDto.getDevelopers();
+
+        for (DeveloperDto developer : developerDtosList
+        ) {
+            if (developerDto.getId() == developer.getId()) {
+                throw new InvalidOperationException(DEVELOPER_ALREADY_EXISTS);
+            }
+
+        }
+
+        //FIXME Tell me why tell me why !!
+        // if (developerDtosList.contains(developerDto)){
+        //   throw new InvalidOperationException(DEVELOPER_ALREADY_EXISTS);
+        //}
+
+        developerDtosList.add(developerDto);
+        projectDto.setDevelopers(developerDtosList);
+
+        return modelMapper.map(repository.save(modelMapper.map(projectDto, Project.class)), ProjectDto.class);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.telework.demo.services;
 
+import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
@@ -20,5 +21,5 @@ public interface IProjectManagerService {
 
     //** Original **
     // List<DeveloperDto> getAllDevelopersByProjectManager(Integer idProjectManager);
-    List<ProjectDto> getAllDevelopersByProjectManager(Integer idProjectManager);
+    List<List<DeveloperDto>> getAllDevelopersByProjectManager(Integer idProjectManager);
 }
