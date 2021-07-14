@@ -9,7 +9,5 @@ public interface IPoleManagerRepository extends JpaRepository<PoleManager, Integ
 
     Optional<PoleManager> findById(Integer id);
 
-    PoleManager findByEmail(String email);
-
     boolean existsByEmail(String email);
 }

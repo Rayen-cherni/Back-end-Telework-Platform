@@ -37,7 +37,6 @@ public class Developer extends User implements Serializable {
             fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE)
     @Fetch(FetchMode.SUBSELECT)
-    //@LazyCollection(LazyCollectionOption.FALSE)
     private List<Historique> historiques;
 
     /** IS NOT USED **/

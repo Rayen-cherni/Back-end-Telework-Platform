@@ -18,7 +18,4 @@ public interface IUserService {
 
     List<UserDto> getAllUserByUserStatus(UserStatus userStatus);
 
-    UserDto createUser(CreateUserForm userForm);
-
-
 }

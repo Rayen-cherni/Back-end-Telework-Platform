@@ -1,4 +1,4 @@
-package com.telework.demo.services.Implementation;
+package com.telework.demo.services.implementation;
 
 import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.ProjectDto;
@@ -86,11 +86,10 @@ public class ProjectManagerService implements IProjectManagerService {
         // TODO refactoring
         ProjectManagerDto projectManager = findById(idProjectManager);
         List<ProjectDto> projectDtos = projectManager.getProjects();
-        List<List<DeveloperDto>> developers = projectDtos
-                .stream()
-                .map(projectDto -> projectDto.getDevelopers())
-                .collect(Collectors.toList());
 
-        return developers;
+        return projectDtos
+                .stream()
+                .map(ProjectDto::getDevelopers)
+                .collect(Collectors.toList());
     }
 }

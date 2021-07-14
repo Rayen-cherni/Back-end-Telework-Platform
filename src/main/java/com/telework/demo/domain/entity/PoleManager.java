@@ -16,11 +16,6 @@ import java.io.Serializable;
 @Table(name = "poleManager")
 public class PoleManager extends User implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-
     /********** RELATIONS ************/
 
     @OneToOne

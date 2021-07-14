@@ -17,10 +17,6 @@ import java.util.List;
 @Table(name = "projectManager")
 public class ProjectManager extends User implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     /********** RELATIONS ************/
     @OneToMany(mappedBy = "projectManager",fetch = FetchType.EAGER)
     private List<Project> projects;

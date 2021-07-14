@@ -1,4 +1,4 @@
-package com.telework.demo.services.Implementation;
+package com.telework.demo.services.implementation;
 
 import com.telework.demo.domain.dto.AdminDto;
 import com.telework.demo.domain.entity.Admin;
@@ -39,9 +39,12 @@ public class AdminService implements IAdminService {
 
     @Override
     public AdminDto findById(Integer id) {
-        return adminRepository.findById(id).map((admin -> modelMapper.map(admin, AdminDto.class))).orElseThrow(
-                () -> new EntityNotFoundException(ADMIN_NOT_FOUND + id)
-        );
+        return adminRepository
+                .findById(id)
+                .map((admin -> modelMapper.map(admin, AdminDto.class)))
+                .orElseThrow(
+                        () -> new EntityNotFoundException(ADMIN_NOT_FOUND + id)
+                );
     }
 
     @Override

@@ -42,14 +42,15 @@ public class ProjectController {
         return service.findAll();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     void delete(@PathVariable Integer id) {
         service.delete(id);
     }
 
-    @PatchMapping("/updateAssignement/{idProject}/{idDeveloper}")
+    @PatchMapping(value = "/updateAssignementOfDeveloper/{idProject}/{idDeveloper}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     void assignementOfDeveloper(@PathVariable Integer idProject,
                                 @PathVariable Integer idDeveloper) {
-        service.assignementOfDeveloper(idProject, idDeveloper);
+         service.assignementOfDeveloper(idProject, idDeveloper);
     }
 }

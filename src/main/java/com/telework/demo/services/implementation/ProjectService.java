@@ -1,4 +1,4 @@
-package com.telework.demo.services.Implementation;
+package com.telework.demo.services.implementation;
 
 import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.ProjectDto;
@@ -64,7 +64,7 @@ public class ProjectService implements IProjectService {
         return repository.findById(id).map(project -> modelMapper
                 .map(project, ProjectDto.class))
                 .orElseThrow(
-                        () -> new EntityNotFoundException(PROJECT_NOT_FOUND + id)
+                        () -> new EntityNotFoundException(PROJECT_NOT_FOUND)
                 );
     }
 
@@ -80,14 +80,15 @@ public class ProjectService implements IProjectService {
     public void delete(Integer id) {
         ProjectDto projectDto = findById(id);
         if (projectDto == null) {
-            throw new EntityNotFoundException(PROJECT_NOT_FOUND + id);
+            throw new EntityNotFoundException(PROJECT_NOT_FOUND);
         }
         repository.deleteById(id);
     }
 
-    @Override
     @Transactional
+    @Override
     public ProjectDto assignementOfDeveloper(Integer idProject, Integer idDeveloper) {
+        //FIXME
         ProjectDto projectDto = findById(idProject);
         Optional<Developer> optionalDeveloper = developerRepository.findById(idDeveloper);
 
@@ -97,23 +98,20 @@ public class ProjectService implements IProjectService {
         DeveloperDto developerDto = modelMapper.map(optionalDeveloper.get(), DeveloperDto.class);
         List<DeveloperDto> developerDtosList = projectDto.getDevelopers();
 
-        for (DeveloperDto developer : developerDtosList
+        //FIXME Tell me why tell me why !!
+        // if (developerDtosList.contains(developerDto)) doesn't work !
+        for (DeveloperDto localDeveloper : developerDtosList
         ) {
-            if (developerDto.getId() == developer.getId()) {
+            if (developerDto.getId() == localDeveloper.getId()) {
                 throw new InvalidOperationException(DEVELOPER_ALREADY_EXISTS);
             }
-
         }
-
-        //FIXME Tell me why tell me why !!
-        // if (developerDtosList.contains(developerDto)){
-        //   throw new InvalidOperationException(DEVELOPER_ALREADY_EXISTS);
-        //}
 
         developerDtosList.add(developerDto);
         projectDto.setDevelopers(developerDtosList);
+        Project project = repository.save(modelMapper.map(projectDto, Project.class));
 
-        return modelMapper.map(repository.save(modelMapper.map(projectDto, Project.class)), ProjectDto.class);
+        return modelMapper.map(project, ProjectDto.class);
     }
 }
 

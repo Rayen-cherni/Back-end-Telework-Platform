@@ -1,9 +1,9 @@
-package com.telework.demo.services.Implementation;
+package com.telework.demo.services.implementation;
 
 import com.telework.demo.domain.dto.UserDto;
-import com.telework.demo.domain.entity.*;
+import com.telework.demo.domain.entity.User;
 import com.telework.demo.domain.entity.enumeration.UserStatus;
-import com.telework.demo.domain.model.CreateUserForm;
+import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.InvalidOperationException;
 import com.telework.demo.repository.*;
@@ -12,9 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.telework.demo.exception.ErrorMessages.*;
@@ -62,8 +62,11 @@ public class UserService implements IUserService {
             throw new InvalidOperationException(USER_NOT_FOUND_BY_EMAIL);
         }
 
-        User user = repository.findByEmail(email);
-
+        Optional<User> optionalUser = repository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+            throw new EntityNotFoundException(USER_NOT_FOUND_BY_EMAIL);
+        }
+        User user = optionalUser.get();
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -71,14 +74,17 @@ public class UserService implements IUserService {
     public UserDto updateStatus(Integer id, UserStatus userStatus) {
         //TODO refactoring is necessary is this case we need to use DTO
         //UserDto userDto = modelMapper.map(repository.findById(id).get(), UserDto.class);
-        //TODO test si l'utilisitauer en service ou pas !
         if (repository.findById(id).isEmpty()) {
             throw new InvalidOperationException(USER_NOT_FOUND_BY_ID);
         }
-        User user = repository.findById(id).get();
-        user.setUserStatus(userStatus);
-
-        return modelMapper.map(repository.save(user), UserDto.class);
+        // User user = repository.findById(id).get();
+        UserDto userDto = modelMapper.map(repository.findById(id).get(), UserDto.class);
+        if (userDto.getWithHoldingType() != WithHoldingType.NONE) {
+            throw new InvalidOperationException(USER_OUT_OF_SERVICE);
+        }
+        userDto.setUserStatus(userStatus);
+        repository.save(modelMapper.map(userDto, User.class));
+        return userDto;
     }
 
     @Override
@@ -87,46 +93,6 @@ public class UserService implements IUserService {
         return repository.findByUserStatus(userStatus).stream().map(user ->
                 modelMapper.map(user, UserDto.class)
         ).collect(Collectors.toList());
-    }
-
-    @Transactional
-    @Override
-    public UserDto createUser(CreateUserForm userForm) {
-
-        if (repository.existsByEmail(userForm.getEmail())) {
-            throw new InvalidOperationException(REGISTER_PROCESS_NOT_VALID);
-        }
-
-        User user = new User();
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setPassword(passwordEncoder.encode(userForm.getPassword()));
-        user.setEmail(userForm.getEmail());
-        user.setTelNum(userForm.getTelNum());
-        user.setWithHoldingType(userForm.getWithHoldingType());
-        user.setAdress(userForm.getAdress());
-        user.setUserStatus(userForm.getUserStatus());
-        user.setPresential(0);
-        user.setRemote(0);
-        //TODO TEST sur le role si existe ou pas
-        String roleName = userForm.getRole();
-        Role role = roleRepository.findByRoleName(roleName).orElseThrow(() ->
-                new EntityNotFoundException(ROLE_NOT_FOUND_BY_NAME));
-        user.setRole(role);
-        if (roleName.equals("Admin")) {
-            adminRepository.save((Admin) user);
-        }
-        if (roleName.equals("Developer")) {
-            developerRepository.save((Developer) user);
-        }
-        if (roleName.equals("Pole Manager")) {
-            poleManagerRepository.save((PoleManager) user);
-        }
-        if (roleName.equals("Project Manager")) {
-            projectManagerRepository.save((ProjectManager) user);
-        }
-
-        return null;
     }
 
 }

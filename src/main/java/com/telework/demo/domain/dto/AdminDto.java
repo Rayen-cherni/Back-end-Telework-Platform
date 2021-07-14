@@ -13,6 +13,4 @@ public class AdminDto extends UserDto {
 
     private Integer id;
 
-
-
 }
