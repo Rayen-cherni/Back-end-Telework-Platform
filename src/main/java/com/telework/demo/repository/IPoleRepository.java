@@ -7,9 +7,5 @@ import java.util.Optional;
 
 public interface IPoleRepository extends JpaRepository<Pole, Integer> {
 
-    Optional<Pole> findById(Integer id);
-
-    Pole findByName(String name);
-
     boolean existsByName(String name);
 }

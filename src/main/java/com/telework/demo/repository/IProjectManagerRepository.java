@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface IProjectManagerRepository extends JpaRepository<ProjectManager, Integer> {
 
-    Optional<ProjectManager> findById(Integer id);
-
     boolean existsByEmail(String email);
 
 

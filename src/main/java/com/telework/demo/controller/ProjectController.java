@@ -49,8 +49,8 @@ public class ProjectController {
 
     @PatchMapping(value = "/updateAssignementOfDeveloper/{idProject}/{idDeveloper}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    void assignementOfDeveloper(@PathVariable Integer idProject,
-                                @PathVariable Integer idDeveloper) {
-         service.assignementOfDeveloper(idProject, idDeveloper);
+    ProjectDto assignementOfDeveloper(@PathVariable Integer idProject,
+                                      @PathVariable Integer idDeveloper) {
+        return service.assignementOfDeveloper(idProject, idDeveloper);
     }
 }

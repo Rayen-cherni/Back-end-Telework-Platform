@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface IDeveloperRepository extends JpaRepository<Developer, Integer> {
 
-    Optional<Developer> findById(Integer id);
-
     boolean existsByEmail(String email);
 
 }

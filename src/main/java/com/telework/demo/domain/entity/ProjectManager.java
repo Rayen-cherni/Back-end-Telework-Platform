@@ -1,15 +1,17 @@
 package com.telework.demo.domain.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -18,7 +20,7 @@ import java.util.List;
 public class ProjectManager extends User implements Serializable {
 
     /********** RELATIONS ************/
-    @OneToMany(mappedBy = "projectManager",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "projectManager", fetch = FetchType.EAGER)
     private List<Project> projects;
 
     /** IS NOT USED **/

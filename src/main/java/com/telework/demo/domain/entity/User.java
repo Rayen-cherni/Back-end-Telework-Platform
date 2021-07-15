@@ -3,14 +3,16 @@ package com.telework.demo.domain.entity;
 import com.telework.demo.domain.entity.enumeration.UserStatus;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder

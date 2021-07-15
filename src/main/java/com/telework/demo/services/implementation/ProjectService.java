@@ -85,10 +85,10 @@ public class ProjectService implements IProjectService {
         repository.deleteById(id);
     }
 
+
     @Transactional
     @Override
     public ProjectDto assignementOfDeveloper(Integer idProject, Integer idDeveloper) {
-        //FIXME
         ProjectDto projectDto = findById(idProject);
         Optional<Developer> optionalDeveloper = developerRepository.findById(idDeveloper);
 
@@ -98,8 +98,10 @@ public class ProjectService implements IProjectService {
         DeveloperDto developerDto = modelMapper.map(optionalDeveloper.get(), DeveloperDto.class);
         List<DeveloperDto> developerDtosList = projectDto.getDevelopers();
 
-        //FIXME Tell me why tell me why !!
-        // if (developerDtosList.contains(developerDto)) doesn't work !
+        //README
+        // if (developerDtosList.contains(developerDto)) doesn't work!!
+        // Reason : because u need to override the hashCode method in DeveloperDto class!
+        // Solution : you can override them ( hashcode method && equals method using @EqualsAndHashCode
         for (DeveloperDto localDeveloper : developerDtosList
         ) {
             if (developerDto.getId() == localDeveloper.getId()) {
@@ -109,9 +111,11 @@ public class ProjectService implements IProjectService {
 
         developerDtosList.add(developerDto);
         projectDto.setDevelopers(developerDtosList);
-        Project project = repository.save(modelMapper.map(projectDto, Project.class));
 
-        return modelMapper.map(project, ProjectDto.class);
+        return modelMapper
+                .map(repository
+                        .save(modelMapper
+                                .map(projectDto, Project.class)), ProjectDto.class);
     }
 }
 

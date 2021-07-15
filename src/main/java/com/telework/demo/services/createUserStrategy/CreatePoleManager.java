@@ -1,12 +1,12 @@
-package com.telework.demo.services.strategy;
+package com.telework.demo.services.createUserStrategy;
 
-import com.telework.demo.domain.dto.ProjectManagerDto;
-import com.telework.demo.domain.entity.ProjectManager;
+import com.telework.demo.domain.dto.PoleManagerDto;
+import com.telework.demo.domain.entity.PoleManager;
 import com.telework.demo.domain.entity.Role;
 import com.telework.demo.domain.model.CreateUserForm;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.InvalidOperationException;
-import com.telework.demo.repository.IProjectManagerRepository;
+import com.telework.demo.repository.IPoleManagerRepository;
 import com.telework.demo.repository.IRoleRepository;
 import com.telework.demo.repository.IUserRepository;
 import org.modelmapper.ModelMapper;
@@ -17,10 +17,11 @@ import org.springframework.stereotype.Service;
 import static com.telework.demo.exception.ErrorMessages.REGISTER_PROCESS_NOT_VALID;
 import static com.telework.demo.exception.ErrorMessages.ROLE_NOT_FOUND_BY_NAME;
 
-@Service("Project ManagerStrategy")
-public class CreateProjectManager implements IStrategy<ProjectManagerDto> {
+@Service("Pole ManagerStrategy")
+public class CreatePoleManager implements IStrategy<PoleManagerDto> {
+
     @Autowired
-    private IProjectManagerRepository repository;
+    private IPoleManagerRepository repository;
     @Autowired
     private IUserRepository userRepository;
     @Autowired
@@ -31,27 +32,27 @@ public class CreateProjectManager implements IStrategy<ProjectManagerDto> {
     private IRoleRepository roleRepository;
 
     @Override
-    public ProjectManagerDto createUser(CreateUserForm userForm) {
+    public PoleManagerDto createUser(CreateUserForm userForm) {
         if (userRepository.existsByEmail(userForm.getEmail())) {
             throw new InvalidOperationException(REGISTER_PROCESS_NOT_VALID);
         }
 
-        ProjectManager projectManager = new ProjectManager();
-        projectManager.setFirstname(userForm.getFirstname());
-        projectManager.setLastname(userForm.getLastname());
-        projectManager.setPassword(passwordEncoder.encode(userForm.getPassword()));
-        projectManager.setEmail(userForm.getEmail());
-        projectManager.setTelNum(userForm.getTelNum());
-        projectManager.setWithHoldingType(userForm.getWithHoldingType());
-        projectManager.setAdress(userForm.getAdress());
-        projectManager.setUserStatus(userForm.getUserStatus());
-        projectManager.setPresential(0);
-        projectManager.setRemote(0);
+        PoleManager poleManager = new PoleManager();
+        poleManager.setFirstname(userForm.getFirstname());
+        poleManager.setLastname(userForm.getLastname());
+        poleManager.setPassword(passwordEncoder.encode(userForm.getPassword()));
+        poleManager.setEmail(userForm.getEmail());
+        poleManager.setTelNum(userForm.getTelNum());
+        poleManager.setWithHoldingType(userForm.getWithHoldingType());
+        poleManager.setAdress(userForm.getAdress());
+        poleManager.setUserStatus(userForm.getUserStatus());
+        poleManager.setPresential(0);
+        poleManager.setRemote(0);
         String roleName = userForm.getRole();
         Role role = roleRepository.findByRoleName(roleName).orElseThrow(() ->
                 new EntityNotFoundException(ROLE_NOT_FOUND_BY_NAME));
-        projectManager.setRole(role);
+        poleManager.setRole(role);
 
-        return modelMapper.map(repository.save(projectManager), ProjectManagerDto.class);
+        return modelMapper.map(repository.save(poleManager), PoleManagerDto.class);
     }
 }

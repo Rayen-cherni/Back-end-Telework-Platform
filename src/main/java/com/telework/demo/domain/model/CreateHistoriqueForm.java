@@ -1,5 +1,6 @@
 package com.telework.demo.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.HistoriqueDto;
 import com.telework.demo.domain.entity.enumeration.Decision;
@@ -8,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,9 +17,11 @@ import java.time.Instant;
 @Data
 public class CreateHistoriqueForm {
 
-    private Instant startingDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date startingDate;
 
-    private Instant deadline;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date deadline;
 
     private Decision projectManagerDecision;
 

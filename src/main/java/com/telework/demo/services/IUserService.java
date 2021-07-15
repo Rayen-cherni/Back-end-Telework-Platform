@@ -14,7 +14,7 @@ public interface IUserService {
 
     UserDto findByEmail(String email);
 
-    UserDto updateStatus(Integer id, UserStatus userStatus);
+   // UserDto updateStatus(Integer id, UserStatus userStatus);
 
     List<UserDto> getAllUserByUserStatus(UserStatus userStatus);
 

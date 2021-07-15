@@ -1,5 +1,6 @@
 package com.telework.demo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.telework.demo.domain.entity.enumeration.Decision;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,9 +18,11 @@ public class HistoriqueDto {
 
     private Integer id;
 
-    private Instant startingDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date startingDate;
 
-    private Instant deadline;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date deadline;
 
     private Decision projectManagerDecision;
 

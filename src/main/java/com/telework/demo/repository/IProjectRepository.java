@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface IProjectRepository extends JpaRepository<Project, Integer> {
 
-    Optional<Project> findById(Integer id);
 
     //List<Project> findByDevelopers(List<Developer> developers);
 

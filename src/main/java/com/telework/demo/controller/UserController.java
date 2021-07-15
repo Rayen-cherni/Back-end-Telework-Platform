@@ -4,7 +4,8 @@ import com.telework.demo.domain.dto.UserDto;
 import com.telework.demo.domain.entity.enumeration.UserStatus;
 import com.telework.demo.domain.model.CreateUserForm;
 import com.telework.demo.services.IUserService;
-import com.telework.demo.services.strategy.StrategyContext;
+import com.telework.demo.services.createUserStrategy.StrategyContext;
+import com.telework.demo.services.updateStatusStrategy.UpdateUserStatusStrategyContext;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,8 @@ public class UserController {
     private final IUserService service;
     @Autowired
     private StrategyContext strategyContext;
+    @Autowired
+    private UpdateUserStatusStrategyContext updateUserStatusStrategyContext;
 
     public UserController(IUserService service) {
         this.service = service;
@@ -37,10 +40,10 @@ public class UserController {
     }
 
     @PatchMapping(value = "/update/userStatus/{id}/{userStatus}")
-    UserDto updateStatus(@PathVariable Integer id,
-                         @PathVariable UserStatus userStatus) {
+    Object updateStatus(@PathVariable Integer id,
+                        @PathVariable UserStatus userStatus) {
 
-        return service.updateStatus(id, userStatus);
+        return updateUserStatusStrategyContext.updateStatus(id, userStatus);
     }
 
     @GetMapping(value = "/filterByUserStatus/{userStatus}")

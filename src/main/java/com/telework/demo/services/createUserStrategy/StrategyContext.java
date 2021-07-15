@@ -1,4 +1,4 @@
-package com.telework.demo.services.strategy;
+package com.telework.demo.services.createUserStrategy;
 
 import com.telework.demo.domain.model.CreateUserForm;
 import com.telework.demo.exception.InvalidOperationException;
@@ -11,7 +11,6 @@ public class StrategyContext {
 
     private BeanFactory beanFactory;
     private IStrategy strategy;
-    private String context;
 
     @Autowired
     public StrategyContext(BeanFactory beanFactory) {

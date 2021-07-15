@@ -7,7 +7,5 @@ import java.util.Optional;
 
 public interface IPoleManagerRepository extends JpaRepository<PoleManager, Integer> {
 
-    Optional<PoleManager> findById(Integer id);
-
     boolean existsByEmail(String email);
 }
