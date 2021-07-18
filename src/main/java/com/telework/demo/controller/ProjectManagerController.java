@@ -1,9 +1,11 @@
 package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.DeveloperDto;
-import com.telework.demo.domain.dto.ProjectDto;
+import com.telework.demo.domain.dto.PoleManagerDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
+import com.telework.demo.domain.model.ChangePasswordRequest;
+import com.telework.demo.domain.model.UpdateUserForm;
 import com.telework.demo.services.IProjectManagerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -62,5 +64,21 @@ public class ProjectManagerController {
     @ApiOperation(value = "To get all developers by project manager ")
     public List<List<DeveloperDto>> getAllDevelopersByProjectManager(@PathVariable("id") Integer idProjectManager) {
         return service.getAllDevelopersByProjectManager(idProjectManager);
+    }
+
+    @PatchMapping(value = "/update/projectManagerProfile")
+    ProjectManagerDto updateProfile(@RequestHeader(name = "Authorization") String token, @RequestBody UpdateUserForm updateUserForm) {
+        return service.updateProfile(token, updateUserForm);
+    }
+
+    @PatchMapping(value = "/update/password")
+    public ProjectManagerDto changePassword(@RequestBody ChangePasswordRequest request) {
+        return service.changePassword(request);
+    }
+
+    @PostMapping(value = "/update/role/{idProjectManager}")
+    @ApiOperation(value = "We can change his role only to Pole Manager")
+    public PoleManagerDto changeRoleToProjectManager(@PathVariable Integer idProjectManager) {
+        return service.changeRoleToPoleManager(idProjectManager);
     }
 }

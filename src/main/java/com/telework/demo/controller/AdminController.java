@@ -2,6 +2,7 @@ package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.AdminDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
+import com.telework.demo.domain.model.ChangePasswordRequest;
 import com.telework.demo.services.IAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,4 +46,10 @@ public class AdminController {
                                      @PathVariable WithHoldingType withHoldingType) {
         return service.updateWithHoldingStatus(id, withHoldingType);
     }
+
+    @PatchMapping(value = "/update/password")
+    public AdminDto changePassword(@RequestBody ChangePasswordRequest request) {
+        return service.changePassword(request);
+    }
+
 }

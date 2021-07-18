@@ -103,6 +103,20 @@ public class HistoriqueService implements IHistoriqueService {
         HistoriqueDto historiqueDto = findById(idHistorique);
         checkDeveloperStatus(idDeveloper);
         historiqueDto.setPoleManagerDecision(decision);
+        Optional<Developer> optionalDeveloper = developerRepository.findById(idDeveloper);
+        if (optionalDeveloper.isEmpty()) {
+            throw new InvalidOperationException(DEVELOPER_NOT_FOUND);
+        }
+        if (decision == Decision.PRESENTIAL) {
+            Integer presential = optionalDeveloper.get().getPresential();
+            presential++;
+            optionalDeveloper.get().setPresential(presential);
+        } else {
+            Integer remote = optionalDeveloper.get().getRemote();
+            remote++;
+            optionalDeveloper.get().setRemote(remote);
+        }
+        developerRepository.save(optionalDeveloper.get());
         return modelMapper
                 .map(repository
                         .save(modelMapper

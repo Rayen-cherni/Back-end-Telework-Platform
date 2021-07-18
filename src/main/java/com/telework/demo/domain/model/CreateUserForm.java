@@ -1,15 +1,11 @@
 package com.telework.demo.domain.model;
 
-import com.telework.demo.domain.dto.RoleDto;
 import com.telework.demo.domain.entity.enumeration.UserStatus;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Builder
 @Data
 public class CreateUserForm {

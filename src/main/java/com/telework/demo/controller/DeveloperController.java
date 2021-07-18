@@ -1,7 +1,10 @@
 package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.DeveloperDto;
+import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
+import com.telework.demo.domain.model.ChangePasswordRequest;
+import com.telework.demo.domain.model.UpdateUserForm;
 import com.telework.demo.services.IDeveloperService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,4 +56,22 @@ public class DeveloperController {
                                          @PathVariable WithHoldingType withHoldingType) {
         return service.updateWithHoldingStatus(id, withHoldingType);
     }
+
+    @PatchMapping(value = "/update/developerProfile")
+    DeveloperDto updateProfile(@RequestHeader(name = "Authorization") String token, @RequestBody UpdateUserForm updateUserForm) {
+        return service.updateProfile(token, updateUserForm);
+    }
+
+    @PatchMapping(value = "/update/password")
+    public DeveloperDto changePassword(@RequestBody ChangePasswordRequest request) {
+        return service.changePassword(request);
+    }
+
+    @PostMapping(value = "/update/role/{idDeveloper}")
+    @ApiOperation(value = "We can change his role only to Project Manager")
+    public ProjectManagerDto changeRoleToProjectManager(@PathVariable Integer idDeveloper) {
+        return service.changeRoleToProjectManager(idDeveloper);
+    }
+
+
 }

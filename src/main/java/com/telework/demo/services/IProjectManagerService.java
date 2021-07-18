@@ -1,9 +1,11 @@
 package com.telework.demo.services;
 
 import com.telework.demo.domain.dto.DeveloperDto;
-import com.telework.demo.domain.dto.ProjectDto;
+import com.telework.demo.domain.dto.PoleManagerDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
+import com.telework.demo.domain.model.ChangePasswordRequest;
+import com.telework.demo.domain.model.UpdateUserForm;
 
 import java.util.List;
 
@@ -19,7 +21,12 @@ public interface IProjectManagerService {
 
     ProjectManagerDto updateWithHoldingStatus(Integer id, WithHoldingType withHoldingType);
 
-    //** Original **
-    // List<DeveloperDto> getAllDevelopersByProjectManager(Integer idProjectManager);
     List<List<DeveloperDto>> getAllDevelopersByProjectManager(Integer idProjectManager);
+
+    ProjectManagerDto updateProfile(String token, UpdateUserForm updateUserForm);
+
+    ProjectManagerDto changePassword(ChangePasswordRequest request);
+
+    PoleManagerDto changeRoleToPoleManager(Integer idProjectManager);
+
 }

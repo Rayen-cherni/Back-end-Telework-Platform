@@ -1,6 +1,7 @@
 package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.HistoriqueDto;
+import com.telework.demo.domain.entity.enumeration.Decision;
 import com.telework.demo.domain.model.CreateHistoriqueForm;
 import com.telework.demo.services.IHistoriqueService;
 import io.swagger.annotations.Api;
@@ -44,5 +45,19 @@ public class HistoriqueController {
     @DeleteMapping(value = "/delete/{id}")
     void delete(@PathVariable Integer id) {
         service.delete(id);
+    }
+
+    @PatchMapping(value = "/update/decisionProjectManager/{idHistorique}/{idDeveloper}/{decision}")
+    HistoriqueDto updateDecisionProjectManager(@PathVariable Integer idHistorique,
+                                               @PathVariable Integer idDeveloper,
+                                               @PathVariable Decision decision) {
+        return service.updateDecisionProjectManager(idHistorique, idDeveloper, decision);
+    }
+
+    @PatchMapping(value = "/update/decisionPoleManager/{idHistorique}/{idDeveloper}/{decision}")
+    HistoriqueDto updateDecisionPoleManager(@PathVariable Integer idHistorique,
+                                            @PathVariable Integer idDeveloper,
+                                            @PathVariable Decision decision) {
+        return service.updateDecisionPoleManager(idHistorique, idDeveloper, decision);
     }
 }

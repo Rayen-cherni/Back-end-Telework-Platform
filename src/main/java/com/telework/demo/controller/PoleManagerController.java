@@ -2,6 +2,8 @@ package com.telework.demo.controller;
 
 import com.telework.demo.domain.dto.PoleManagerDto;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
+import com.telework.demo.domain.model.ChangePasswordRequest;
+import com.telework.demo.domain.model.UpdateUserForm;
 import com.telework.demo.services.IPoleManagerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,5 +55,16 @@ public class PoleManagerController {
     PoleManagerDto updateWithHoldingStatus(@PathVariable Integer id,
                                            @PathVariable WithHoldingType withHoldingType) {
         return service.updateWithHoldingStatus(id, withHoldingType);
+    }
+
+    @PatchMapping(value = "/update/poleManagerProfile")
+    PoleManagerDto updateProfile(@RequestHeader(name = "Authorization") String token,
+                                 @RequestBody UpdateUserForm updateUserForm) {
+        return service.updateProfile(token, updateUserForm);
+    }
+
+    @PatchMapping(value = "/update/password")
+    public PoleManagerDto changePassword(@RequestBody ChangePasswordRequest request) {
+        return service.changePassword(request);
     }
 }

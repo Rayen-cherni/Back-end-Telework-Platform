@@ -3,15 +3,11 @@ package com.telework.demo.domain.model;
 import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Data
 public class CreateProjectForm {

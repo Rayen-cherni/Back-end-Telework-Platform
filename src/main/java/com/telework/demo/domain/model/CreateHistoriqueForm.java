@@ -4,15 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.telework.demo.domain.dto.DeveloperDto;
 import com.telework.demo.domain.dto.HistoriqueDto;
 import com.telework.demo.domain.entity.enumeration.Decision;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Data
 public class CreateHistoriqueForm {

@@ -2,12 +2,10 @@ package com.telework.demo.domain.model;
 
 import com.telework.demo.domain.dto.PoleDto;
 import com.telework.demo.domain.dto.PoleManagerDto;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @Data
 public class CreatePoleForm {
 
@@ -20,7 +18,6 @@ public class CreatePoleForm {
     private Integer reserved;
 
     private Integer poleManagerId;
-
 
     public static PoleDto convertToPoleDto(CreatePoleForm poleForm, PoleManagerDto poleManagerDto) {
 
