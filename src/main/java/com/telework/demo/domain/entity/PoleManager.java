@@ -19,7 +19,6 @@ import java.io.Serializable;
 public class PoleManager extends User implements Serializable {
 
     /********** RELATIONS ************/
-
     @OneToOne
     private Pole pole;
 

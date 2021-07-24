@@ -13,6 +13,7 @@ import static com.telework.demo.utils.Constants.ROLE_ENDPOINT;
 @RestController
 @RequestMapping(ROLE_ENDPOINT)
 @Api(ROLE_ENDPOINT)
+@CrossOrigin(origins = "http://localhost:4200")
 public class RoleController {
 
     private final IRoleService service;

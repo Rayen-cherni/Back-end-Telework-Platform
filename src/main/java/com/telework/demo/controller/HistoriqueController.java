@@ -15,6 +15,7 @@ import static com.telework.demo.utils.Constants.HISTORIQUE_ENDPOINT;
 @RestController
 @RequestMapping(HISTORIQUE_ENDPOINT)
 @Api(HISTORIQUE_ENDPOINT)
+@CrossOrigin(origins = "http://localhost:4200")
 public class HistoriqueController {
 
     private final IHistoriqueService service;

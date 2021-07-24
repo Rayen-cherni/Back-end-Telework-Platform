@@ -18,6 +18,7 @@ import static com.telework.demo.utils.Constants.DEVELOPER_ENDPOINT;
 @RestController
 @RequestMapping(DEVELOPER_ENDPOINT)
 @Api(DEVELOPER_ENDPOINT)
+@CrossOrigin(origins = "http://localhost:4200")
 public class DeveloperController {
 
     private final IDeveloperService service;

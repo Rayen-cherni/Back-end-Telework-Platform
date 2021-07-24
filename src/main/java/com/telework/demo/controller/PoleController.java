@@ -15,6 +15,7 @@ import static com.telework.demo.utils.Constants.POLE_ENDPOINT;
 @RestController
 @RequestMapping(POLE_ENDPOINT)
 @Api(POLE_ENDPOINT)
+@CrossOrigin(origins = "http://localhost:4200")
 public class PoleController {
 
     private final IPoleService service;

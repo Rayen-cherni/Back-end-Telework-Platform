@@ -17,6 +17,8 @@ public interface IPoleManagerService {
 
     void delete(Integer id);
 
+    String updatePole(Integer idPoleManager, Integer idPole);
+
     PoleManagerDto updateWithHoldingStatus(Integer id, WithHoldingType withHoldingType);
 
     PoleManagerDto updateProfile(String token, UpdateUserForm updateUserForm);

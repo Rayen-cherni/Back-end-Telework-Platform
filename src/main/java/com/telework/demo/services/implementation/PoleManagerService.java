@@ -1,7 +1,9 @@
 package com.telework.demo.services.implementation;
 
 import com.telework.demo.configuration.securityConfiguration.jwt.JwtProvider;
+import com.telework.demo.domain.dto.PoleDto;
 import com.telework.demo.domain.dto.PoleManagerDto;
+import com.telework.demo.domain.entity.Pole;
 import com.telework.demo.domain.entity.PoleManager;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import com.telework.demo.domain.model.ChangePasswordRequest;
@@ -9,6 +11,7 @@ import com.telework.demo.domain.model.UpdateUserForm;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.InvalidOperationException;
 import com.telework.demo.repository.IPoleManagerRepository;
+import com.telework.demo.repository.IPoleRepository;
 import com.telework.demo.repository.IUserRepository;
 import com.telework.demo.services.IPoleManagerService;
 import org.modelmapper.ModelMapper;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.telework.demo.exception.ErrorMessages.*;
@@ -27,13 +31,16 @@ public class PoleManagerService implements IPoleManagerService {
 
     @Autowired
     private IPoleManagerRepository repository;
+
+    @Autowired
+    private IPoleRepository poleRepository;
+
     @Autowired
     private IUserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
     private JwtProvider jwtProvider;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -72,6 +79,23 @@ public class PoleManagerService implements IPoleManagerService {
             throw new EntityNotFoundException(POLE_MANAGER_NOT_FOUND + id);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    public String updatePole(Integer idPoleManager, Integer idPole) {
+        Optional<PoleManager> optionalPoleManager = repository.findById(idPoleManager);
+        Optional<Pole> optionalPole = poleRepository.findById(idPole);
+        if (optionalPoleManager.isEmpty()){
+            throw new EntityNotFoundException(POLE_MANAGER_NOT_FOUND);
+        }
+        if (optionalPole.isEmpty()){
+            throw new EntityNotFoundException(POLE_NOT_FOUND);
+        }
+        PoleManager poleManager =  optionalPoleManager.get();
+        Pole pole = optionalPole.get();
+        poleManager.setPole(pole);
+        repository.save(poleManager);
+        return poleManager.getPole().getName();
     }
 
     @Override

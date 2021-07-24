@@ -14,6 +14,7 @@ import static com.telework.demo.utils.Constants.ADMIN_ENDPOINT;
 @RestController
 @RequestMapping(ADMIN_ENDPOINT)
 @Api(ADMIN_ENDPOINT)
+@CrossOrigin(origins = "*")
 public class AdminController {
 
     private final IAdminService service;

@@ -57,6 +57,7 @@ public class PoleService implements IPoleService {
         if (isExist) {
             throw new InvalidOperationException(POLE_ALREADY_EXISTS);
         } else {
+
             return modelMapper.map(repository.save(modelMapper.map(poleDto, Pole.class)), PoleDto.class);
         }
 

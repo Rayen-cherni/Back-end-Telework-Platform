@@ -6,8 +6,9 @@ import com.telework.demo.domain.model.CreateUserForm;
 import com.telework.demo.services.IUserService;
 import com.telework.demo.services.createUserStrategy.StrategyContext;
 import com.telework.demo.services.updateStatusStrategy.UpdateUserStatusStrategyContext;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,8 @@ import static com.telework.demo.utils.Constants.USER_ENDPOINT;
 
 @RestController
 @RequestMapping(USER_ENDPOINT)
-@Api(USER_ENDPOINT)
+//@Api(USER_ENDPOINT)
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final IUserService service;
@@ -52,8 +54,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/create")
-    public Object createUser(@RequestBody CreateUserForm userForm) {
-        return strategyContext.createUser(userForm);
+    public ResponseEntity<Object> createUser(@RequestBody CreateUserForm userForm) {
+
+        return ResponseEntity.ok(strategyContext.createUser(userForm));
     }
 
 }

@@ -17,6 +17,7 @@ import static com.telework.demo.utils.Constants.POLE_MANAGER_ENDPOINT;
 @RestController
 @RequestMapping(POLE_MANAGER_ENDPOINT)
 @Api(POLE_MANAGER_ENDPOINT)
+@CrossOrigin(origins = "http://localhost:4200")
 public class PoleManagerController {
 
 
@@ -48,6 +49,12 @@ public class PoleManagerController {
     @DeleteMapping(value = "/delete/{id}")
     void delete(@PathVariable Integer id) {
         service.delete(id);
+    }
+
+    @PatchMapping(value = "/update/pole/{idPoleManager}/{idPole}")
+    String updatePole(@PathVariable Integer idPoleManager,
+                              @PathVariable Integer idPole) {
+        return service.updatePole(idPoleManager, idPole);
     }
 
     @PatchMapping(value = "/update/withHoldingType/{id}/{withHoldingType}")

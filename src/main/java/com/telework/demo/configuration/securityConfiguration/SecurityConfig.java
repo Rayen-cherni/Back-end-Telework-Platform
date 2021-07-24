@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
+
     @Bean
     public AuthenticationManager customAuthenticationManager() throws Exception {
         return authenticationManagerBean();

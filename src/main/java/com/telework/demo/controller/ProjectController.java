@@ -14,6 +14,7 @@ import static com.telework.demo.utils.Constants.PROJECT_ENDPOINT;
 @RestController
 @RequestMapping(PROJECT_ENDPOINT)
 @Api(PROJECT_ENDPOINT)
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
 
 
