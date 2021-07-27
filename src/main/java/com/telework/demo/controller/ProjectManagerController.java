@@ -29,7 +29,6 @@ public class ProjectManagerController {
         this.service = service;
     }
 
-
     @PostMapping(value = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,7 +60,13 @@ public class ProjectManagerController {
         return service.updateWithHoldingStatus(id, withHoldingType);
     }
 
-    @GetMapping(value = "/findProjectsByIdProjectManager/{id}")
+    @PatchMapping(value = "/update/projectList/{idProjectManager}/{idProject}")
+    void updateProjectsList(@PathVariable Integer idProjectManager,
+                            @PathVariable Integer idProject) {
+        service.updateProjectsList(idProjectManager, idProject);
+    }
+
+    @GetMapping(value = "/findDevelopersByIdProjectManager/{id}")
     @ApiOperation(value = "To get all developers by project manager ")
     public List<List<DeveloperDto>> getAllDevelopersByProjectManager(@PathVariable("id") Integer idProjectManager) {
         return service.getAllDevelopersByProjectManager(idProjectManager);

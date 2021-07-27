@@ -41,13 +41,11 @@ public class ProjectService implements IProjectService {
     @Override
     @Transactional
     public ProjectDto save(CreateProjectForm projectForm) {
-
         Optional<ProjectManager> optionalProjectManager = projectManagerRepository
                 .findById(projectForm.getProjectManagerId());
         if (optionalProjectManager.isEmpty()) {
             throw new InvalidOperationException(PROJECT_MANAGER_NOT_FOUND);
         }
-
         boolean isExist = repository.existsByName(projectForm.getName());
         if (isExist) {
             throw new InvalidOperationException(ErrorMessages.PROJECT_ALREADY_EXISTS);
@@ -56,7 +54,6 @@ public class ProjectService implements IProjectService {
         ProjectDto projectDto = CreateProjectForm.convertToProjectDto(projectForm, projectManagerDto);
 
         return modelMapper.map(repository.save(modelMapper.map(projectDto, Project.class)), ProjectDto.class);
-
     }
 
     @Override
@@ -116,6 +113,20 @@ public class ProjectService implements IProjectService {
                 .map(repository
                         .save(modelMapper
                                 .map(projectDto, Project.class)), ProjectDto.class);
+    }
+
+    @Transactional
+    @Override
+    public List<ProjectDto> findByProjectManager(Integer idProjectManager) {
+        Optional<ProjectManager> optionalProjectManager = projectManagerRepository.findById(idProjectManager);
+        if (optionalProjectManager.isEmpty()) {
+            throw new InvalidOperationException(PROJECT_MANAGER_NOT_FOUND);
+        }
+        ProjectManager projectManager = optionalProjectManager.get();
+        return repository.findByProjectManager(projectManager)
+                .stream()
+                .map((project -> modelMapper.map(project, ProjectDto.class)))
+                .collect(Collectors.toList());
     }
 }
 

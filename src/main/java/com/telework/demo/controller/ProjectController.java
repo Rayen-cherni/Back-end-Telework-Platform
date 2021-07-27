@@ -17,9 +17,7 @@ import static com.telework.demo.utils.Constants.PROJECT_ENDPOINT;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
 
-
     private final IProjectService service;
-
     public ProjectController(IProjectService service) {
         this.service = service;
     }
@@ -53,5 +51,11 @@ public class ProjectController {
     ProjectDto assignementOfDeveloper(@PathVariable Integer idProject,
                                       @PathVariable Integer idDeveloper) {
         return service.assignementOfDeveloper(idProject, idDeveloper);
+    }
+
+    @GetMapping(value = "/filterByProjectManager/{idProjectManager}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    List<ProjectDto> findByProjectManager(@PathVariable Integer idProjectManager) {
+        return service.findByProjectManager(idProjectManager);
     }
 }

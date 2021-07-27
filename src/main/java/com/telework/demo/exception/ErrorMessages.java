@@ -17,13 +17,15 @@ public interface ErrorMessages {
      * Create project page's error
      **/
 
-    String PROJECT_NOT_FOUND = "project not found ";
-    String PROJECT_ALREADY_EXISTS = "project already exist ";
+    String PROJECT_NOT_FOUND = "Project not found ";
+    String PROJECT_ALREADY_EXISTS = "Project already exist ";
+    String PROJECT_MANAGER_ALREADY_IN_USE = "Project manager already in use ";
+
     /**
      * Create pole page's error
      **/
     String POLE_MANAGER_ALREADY_IN_USE = "Pole manager already in use in another pole ";
-    String POLE_MANAGER_NOT_FOUND = "pole manager not found ";
+    String POLE_MANAGER_NOT_FOUND = "Pole manager not found ";
 
 
 
@@ -36,19 +38,22 @@ public interface ErrorMessages {
     String DEVELOPER_NOT_FOUND = "Developer not found ";
     String DEVELOPER_ALREADY_EXISTS = "Developer already exist ";
     String DEVELOPER_OUT_OF_SERVICE = "Developer temporarily out of service ";
+    String DEVELOPER_ALREADY_IN_USE = "Developer already in use ";
+
 
     String HISTORIQUE_NOT_FOUND = "Histroqiue not found ";
 
 
-    String POLE_NOT_FOUND = "pole not found ";
+    String POLE_NOT_FOUND = "Pole not found ";
     String POLE_ALREADY_EXISTS = "Pole already exist ";
+    String POLE_ALREADY_IN_USE = "Pole already in use ";
 
-    String PROJECT_MANAGER_NOT_FOUND = "project manager not found";
+    String PROJECT_MANAGER_NOT_FOUND = "Project manager not found";
 
 
-    String ROLE_NOT_FOUND_BY_NAME = "role not found ";
-    String ROLE_NOT_FOUND_BY_ID = "role not found with id: ";
-    String ROLE_ALREADY_EXISTS = "role already exist ";
+    String ROLE_NOT_FOUND_BY_NAME = "Role not found ";
+    String ROLE_NOT_FOUND_BY_ID = "Role not found with id: ";
+    String ROLE_ALREADY_EXISTS = "Role already exist ";
 
     String CHANGE_PASSWORD_ERROR = "The old password you have entered is incorrect";
 

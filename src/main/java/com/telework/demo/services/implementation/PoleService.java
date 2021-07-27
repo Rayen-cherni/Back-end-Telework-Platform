@@ -81,7 +81,10 @@ public class PoleService implements IPoleService {
     public void delete(Integer id) {
         PoleDto poleDto = findById(id);
         if (poleDto == null) {
-            throw new EntityNotFoundException(POLE_NOT_FOUND + id);
+            throw new EntityNotFoundException(POLE_NOT_FOUND);
+        }
+        if (poleDto.getPoleManager() != null) {
+            throw new InvalidOperationException(POLE_ALREADY_IN_USE);
         }
         repository.deleteById(id);
     }
@@ -155,9 +158,9 @@ public class PoleService implements IPoleService {
     public PoleDto updatePoleManager(Integer id, Integer idPoleManager) {
 
         PoleDto poleDto = findById(id);
-        Optional<PoleManager> optionalPoleManager = poleManagerRepository.findById(id);
+        Optional<PoleManager> optionalPoleManager = poleManagerRepository.findById(idPoleManager);
         if (optionalPoleManager.isEmpty()) {
-            throw new InvalidOperationException(POLE_NOT_FOUND);
+            throw new InvalidOperationException(POLE_MANAGER_NOT_FOUND);
         }
         if (optionalPoleManager.get().getPole() != null) {
             throw new InvalidOperationException(POLE_MANAGER_ALREADY_IN_USE);

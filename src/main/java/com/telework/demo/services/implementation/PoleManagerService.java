@@ -1,7 +1,6 @@
 package com.telework.demo.services.implementation;
 
 import com.telework.demo.configuration.securityConfiguration.jwt.JwtProvider;
-import com.telework.demo.domain.dto.PoleDto;
 import com.telework.demo.domain.dto.PoleManagerDto;
 import com.telework.demo.domain.entity.Pole;
 import com.telework.demo.domain.entity.PoleManager;
@@ -78,6 +77,9 @@ public class PoleManagerService implements IPoleManagerService {
         if (poleManagerDto == null) {
             throw new EntityNotFoundException(POLE_MANAGER_NOT_FOUND + id);
         }
+        if (poleManagerDto.getPole() != null) {
+            throw new InvalidOperationException(POLE_MANAGER_ALREADY_IN_USE);
+        }
         repository.deleteById(id);
     }
 
@@ -85,17 +87,30 @@ public class PoleManagerService implements IPoleManagerService {
     public String updatePole(Integer idPoleManager, Integer idPole) {
         Optional<PoleManager> optionalPoleManager = repository.findById(idPoleManager);
         Optional<Pole> optionalPole = poleRepository.findById(idPole);
-        if (optionalPoleManager.isEmpty()){
+        if (optionalPoleManager.isEmpty()) {
             throw new EntityNotFoundException(POLE_MANAGER_NOT_FOUND);
         }
-        if (optionalPole.isEmpty()){
+        if (optionalPole.isEmpty()) {
             throw new EntityNotFoundException(POLE_NOT_FOUND);
         }
-        PoleManager poleManager =  optionalPoleManager.get();
+        PoleManager poleManager = optionalPoleManager.get();
         Pole pole = optionalPole.get();
         poleManager.setPole(pole);
         repository.save(poleManager);
         return poleManager.getPole().getName();
+    }
+
+    //FIXME
+    @Override
+    public void deletePole(Integer idPoleManager) {
+        PoleManagerDto poleManagerDto = findById(idPoleManager);
+        System.out.println("****************************");
+        System.out.println(poleManagerDto.getPole().getId());
+        if (poleManagerDto.getPole().getId() !=null) {
+            System.out.println("*****************************");
+            poleManagerDto.setPole(null);
+            repository.save(modelMapper.map(poleManagerDto, PoleManager.class));
+        }
     }
 
     @Override

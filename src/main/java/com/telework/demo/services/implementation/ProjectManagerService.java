@@ -6,6 +6,7 @@ import com.telework.demo.domain.dto.PoleManagerDto;
 import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.PoleManager;
+import com.telework.demo.domain.entity.Project;
 import com.telework.demo.domain.entity.ProjectManager;
 import com.telework.demo.domain.entity.Role;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
@@ -13,11 +14,9 @@ import com.telework.demo.domain.model.ChangePasswordRequest;
 import com.telework.demo.domain.model.UpdateUserForm;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.InvalidOperationException;
-import com.telework.demo.repository.IPoleManagerRepository;
-import com.telework.demo.repository.IProjectManagerRepository;
-import com.telework.demo.repository.IRoleRepository;
-import com.telework.demo.repository.IUserRepository;
+import com.telework.demo.repository.*;
 import com.telework.demo.services.IProjectManagerService;
+import com.telework.demo.services.IProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,6 +43,8 @@ public class ProjectManagerService implements IProjectManagerService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private IRoleRepository roleRepository;
+    @Autowired
+    private IProjectRepository projectRepository;
 
     @Autowired
     private IPoleManagerRepository poleManagerRepository;
@@ -83,6 +84,9 @@ public class ProjectManagerService implements IProjectManagerService {
         if (projectManagerDto == null) {
             throw new EntityNotFoundException(PROJECT_MANAGER_NOT_FOUND + id);
         }
+        if (!projectManagerDto.getProjects().isEmpty()) {
+            throw new InvalidOperationException(PROJECT_MANAGER_ALREADY_IN_USE);
+        }
         repository.deleteById(id);
     }
 
@@ -92,6 +96,17 @@ public class ProjectManagerService implements IProjectManagerService {
         projectManagerDto.setWithHoldingType(withHoldingType);
 
         return modelMapper.map(repository.save(modelMapper.map(projectManagerDto, ProjectManager.class)), ProjectManagerDto.class);
+    }
+
+    @Transactional
+    @Override
+    public void updateProjectsList(Integer idProjectManager, Integer idProject) {
+        ProjectManagerDto projectManagerDto = findById(idProjectManager);
+        ProjectDto projectDto = modelMapper.map(projectRepository.findById(idProject), ProjectDto.class);
+        List<ProjectDto> projects = projectManagerDto.getProjects();
+        projects.add(projectDto);
+        projectManagerDto.setProjects(projects);
+        repository.save(modelMapper.map(projectManagerDto,ProjectManager.class));
     }
 
     @Override

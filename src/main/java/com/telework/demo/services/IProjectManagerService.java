@@ -21,6 +21,8 @@ public interface IProjectManagerService {
 
     ProjectManagerDto updateWithHoldingStatus(Integer id, WithHoldingType withHoldingType);
 
+    void updateProjectsList(Integer idProjectManager, Integer idProject);
+
     List<List<DeveloperDto>> getAllDevelopersByProjectManager(Integer idProjectManager);
 
     ProjectManagerDto updateProfile(String token, UpdateUserForm updateUserForm);

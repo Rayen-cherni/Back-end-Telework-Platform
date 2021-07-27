@@ -53,8 +53,13 @@ public class PoleManagerController {
 
     @PatchMapping(value = "/update/pole/{idPoleManager}/{idPole}")
     String updatePole(@PathVariable Integer idPoleManager,
-                              @PathVariable Integer idPole) {
+                      @PathVariable Integer idPole) {
         return service.updatePole(idPoleManager, idPole);
+    }
+
+    @PatchMapping(value = "/delete/pole/{idPoleManager}")
+    void deletePole(@PathVariable Integer idPoleManager) {
+        service.deletePole(idPoleManager);
     }
 
     @PatchMapping(value = "/update/withHoldingType/{id}/{withHoldingType}")

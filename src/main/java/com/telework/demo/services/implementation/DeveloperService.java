@@ -84,6 +84,9 @@ public class DeveloperService implements IDeveloperService {
         if (developerDto == null) {
             throw new EntityNotFoundException(DEVELOPER_NOT_FOUND + id);
         }
+        if(!developerDto.getProjects().isEmpty()){
+            throw new InvalidOperationException(DEVELOPER_ALREADY_IN_USE);
+        }
         repository.deleteById(id);
     }
 
