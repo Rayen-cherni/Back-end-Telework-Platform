@@ -1,6 +1,6 @@
-package com.telework.demo.domain.dto;
+package com.telework.demo.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.telework.demo.domain.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,13 +9,12 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@SuperBuilder
-public class ProjectManagerDto extends UserDto {
+public class ProjectManagerLite extends UserDto {
 
-    private List<ProjectDto> projects;
-
+    private List<String> projects;
 }

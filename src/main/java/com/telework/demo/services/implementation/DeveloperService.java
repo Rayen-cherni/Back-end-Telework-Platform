@@ -2,6 +2,7 @@ package com.telework.demo.services.implementation;
 
 import com.telework.demo.configuration.securityConfiguration.jwt.JwtProvider;
 import com.telework.demo.domain.dto.DeveloperDto;
+import com.telework.demo.domain.dto.ProjectDto;
 import com.telework.demo.domain.dto.ProjectManagerDto;
 import com.telework.demo.domain.entity.Developer;
 import com.telework.demo.domain.entity.ProjectManager;
@@ -74,8 +75,8 @@ public class DeveloperService implements IDeveloperService {
         return repository.findAll()
                 .stream()
                 .map((developer -> modelMapper.map(developer, DeveloperDto.class)))
-                .collect(Collectors.toList())
-                ;
+                .collect(Collectors.toList()) ;
+
     }
 
     @Override

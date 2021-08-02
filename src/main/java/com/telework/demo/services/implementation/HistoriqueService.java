@@ -48,7 +48,7 @@ public class HistoriqueService implements IHistoriqueService {
         if (optionalDeveloper.isEmpty()) {
             throw new InvalidOperationException(DEVELOPER_NOT_FOUND);
         }
-
+        checkDeveloperStatus(optionalDeveloper.get().getId());
         HistoriqueDto historiqueDto = CreateHistoriqueForm
                 .convertToHistoriqueDto(historiqueForm, modelMapper.map(optionalDeveloper.get(), DeveloperDto.class));
 
@@ -91,6 +91,7 @@ public class HistoriqueService implements IHistoriqueService {
         HistoriqueDto historiqueDto = findById(idHistorique);
         checkDeveloperStatus(idDeveloper);
         historiqueDto.setProjectManagerDecision(decision);
+
         return modelMapper
                 .map(repository
                         .save(modelMapper
@@ -103,6 +104,7 @@ public class HistoriqueService implements IHistoriqueService {
         HistoriqueDto historiqueDto = findById(idHistorique);
         checkDeveloperStatus(idDeveloper);
         historiqueDto.setPoleManagerDecision(decision);
+
         Optional<Developer> optionalDeveloper = developerRepository.findById(idDeveloper);
         if (optionalDeveloper.isEmpty()) {
             throw new InvalidOperationException(DEVELOPER_NOT_FOUND);

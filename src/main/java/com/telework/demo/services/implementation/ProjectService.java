@@ -108,11 +108,10 @@ public class ProjectService implements IProjectService {
 
         developerDtosList.add(developerDto);
         projectDto.setDevelopers(developerDtosList);
-
-        return modelMapper
-                .map(repository
-                        .save(modelMapper
-                                .map(projectDto, Project.class)), ProjectDto.class);
+        Project pg = repository.save(modelMapper.map(projectDto, Project.class));
+        return projectDto;
+        //return modelMapper
+             //   .map(pg, ProjectDto.class);
     }
 
     @Transactional

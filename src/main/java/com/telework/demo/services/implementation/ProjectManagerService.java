@@ -11,19 +11,20 @@ import com.telework.demo.domain.entity.ProjectManager;
 import com.telework.demo.domain.entity.Role;
 import com.telework.demo.domain.entity.enumeration.WithHoldingType;
 import com.telework.demo.domain.model.ChangePasswordRequest;
+import com.telework.demo.domain.model.ProjectManagerLite;
 import com.telework.demo.domain.model.UpdateUserForm;
 import com.telework.demo.exception.EntityNotFoundException;
 import com.telework.demo.exception.InvalidOperationException;
 import com.telework.demo.repository.*;
+import com.telework.demo.services.IDeveloperService;
 import com.telework.demo.services.IProjectManagerService;
-import com.telework.demo.services.IProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.telework.demo.exception.ErrorMessages.*;
@@ -45,9 +46,10 @@ public class ProjectManagerService implements IProjectManagerService {
     private IRoleRepository roleRepository;
     @Autowired
     private IProjectRepository projectRepository;
-
     @Autowired
     private IPoleManagerRepository poleManagerRepository;
+    @Autowired
+    private IDeveloperService developerService;
 
     @Override
     public ProjectManagerDto save(ProjectManagerDto projectManagerDto) {
@@ -106,21 +108,37 @@ public class ProjectManagerService implements IProjectManagerService {
         List<ProjectDto> projects = projectManagerDto.getProjects();
         projects.add(projectDto);
         projectManagerDto.setProjects(projects);
-        repository.save(modelMapper.map(projectManagerDto,ProjectManager.class));
+        repository.save(modelMapper.map(projectManagerDto, ProjectManager.class));
     }
 
     @Override
-    public List<List<DeveloperDto>> getAllDevelopersByProjectManager(Integer idProjectManager) {
-        // TODO refactoring
-        ProjectManagerDto projectManager = findById(idProjectManager);
-        List<ProjectDto> projectDtos = projectManager.getProjects();
+    public List<DeveloperDto> getAllDevelopersByProjectManager(Integer idProjectManager) {
+        Optional<ProjectManager> optionalProjectManager = repository.findById(idProjectManager);
+        if (optionalProjectManager.isEmpty()){
+            throw new InvalidOperationException(PROJECT_MANAGER_NOT_FOUND);
+        }
+        ProjectManager projectManager = optionalProjectManager.get();
+        List<Project> projects = projectManager.getProjects();
+        List<DeveloperDto> allDevelopers = developerService.findAll();
+        List<DeveloperDto> developersDto = new ArrayList<>();
+        projects.forEach((projectDto -> {
+            int idProject = projectDto.getId();
+            for (DeveloperDto developer : allDevelopers) {
+                developer.getProjects().forEach(projectDev -> {
+                    if (idProject == projectDev.getId()) {
+                        developersDto.add(developer);
+                    }
+                });
+            }
+        }));
 
-        return projectDtos
-                .stream()
-                .map(ProjectDto::getDevelopers)
-                .collect(Collectors.toList());
+        //To Remove Duplicates from the ArrayList
+        Set<DeveloperDto> set = new HashSet<>(developersDto);
+        developersDto.clear();
+        developersDto.addAll(set);
+
+        return developersDto;
     }
-
 
     @Transactional
     @Override

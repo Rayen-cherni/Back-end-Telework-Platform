@@ -68,7 +68,7 @@ public class ProjectManagerController {
 
     @GetMapping(value = "/findDevelopersByIdProjectManager/{id}")
     @ApiOperation(value = "To get all developers by project manager ")
-    public List<List<DeveloperDto>> getAllDevelopersByProjectManager(@PathVariable("id") Integer idProjectManager) {
+    public List<DeveloperDto> getAllDevelopersByProjectManager(@PathVariable("id") Integer idProjectManager) {
         return service.getAllDevelopersByProjectManager(idProjectManager);
     }
 

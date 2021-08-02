@@ -30,10 +30,8 @@ public class PoleManagerService implements IPoleManagerService {
 
     @Autowired
     private IPoleManagerRepository repository;
-
     @Autowired
     private IPoleRepository poleRepository;
-
     @Autowired
     private IUserRepository userRepository;
     @Autowired
@@ -100,14 +98,11 @@ public class PoleManagerService implements IPoleManagerService {
         return poleManager.getPole().getName();
     }
 
-    //FIXME
     @Override
     public void deletePole(Integer idPoleManager) {
         PoleManagerDto poleManagerDto = findById(idPoleManager);
-        System.out.println("****************************");
         System.out.println(poleManagerDto.getPole().getId());
         if (poleManagerDto.getPole().getId() !=null) {
-            System.out.println("*****************************");
             poleManagerDto.setPole(null);
             repository.save(modelMapper.map(poleManagerDto, PoleManager.class));
         }

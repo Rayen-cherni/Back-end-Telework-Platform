@@ -21,6 +21,7 @@ public class ProjectDto {
     @JsonIgnore
     private List<DeveloperDto> developers;
 
+    @JsonIgnore
     private ProjectManagerDto projectManager;
 
     //README
