@@ -45,7 +45,7 @@ Swagger : API documentation
 JWT : Authentication mechanism for REST APIs
 
 ## Installtion 
-## 
+## Throughout the entire application
 Developers can find more information about this Application on my Github repository. I have written a series of two repositories on Spring Boot and Angular, here are the links:
 - [Front-end developed using Angular 10](https://github.com/Rayen-cherni/Front-end-Telework-Platform)
 - [Back-end developed using Spring boot](https://github.com/Rayen-cherni/Back-end-Telework-Platform)
