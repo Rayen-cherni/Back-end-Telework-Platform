@@ -38,11 +38,11 @@ With more than 600 successful digital projects and satisfied customers since its
 ## Development Environment
 
 Following libraries were used during the development of this starter kit :
-Spring Boot : Server side framework
-Docker : Containerising framework
-Postgres : SQL database managment system
-Swagger : API documentation
-JWT : Authentication mechanism for REST APIs
+- **Spring Boot** : Server side framework
+- **Docker** : Containerising framework
+- **Postgres** : SQL database managment system
+- **Swagger** : API documentation
+- **JWT** : Authentication mechanism for REST APIs
 
 ## Installtion 
 Create the postgres Database using 
@@ -52,7 +52,10 @@ postgres=# CREATE DATABASE [Database Name];
 ``` 
 and run the serve.
 
-For more details about database connexion, you can check this [Article](https://chartio.com/resources/tutorials/how-to-set-the-default-user-password-in-postgresql/)
+For more details about database connexion, you can check this [Article](https://chartio.com/resources/tutorials/how-to-set-the-default-user-password-in-postgresql/) .
+Create a user manually from Database using Dbeaver or any other database administration system.
+
+Its as important to document(as is the development) and make your APIs available in a readable manner for frontend teams or external consumers. The tool for API documentation used in this starter kit is Swagger 2, you can open the same inside a browser at the following url [http://localhost:8080/swagger-ui.html#/](http://localhost:8080/swagger-ui.html#/) 
 
 ## Throughout the entire application
 Developers can find more information about this Application on my Github repository. I have written a series of two repositories on Spring Boot and Angular, here are the links:
