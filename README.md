@@ -45,6 +45,15 @@ Swagger : API documentation
 JWT : Authentication mechanism for REST APIs
 
 ## Installtion 
+Create the postgres Database using 
+``` 
+sudo -u postgres psql
+postgres=# CREATE DATABASE [Database Name];
+``` 
+and run the serve.
+
+For more details about database connexion, you can check this [Article](https://chartio.com/resources/tutorials/how-to-set-the-default-user-password-in-postgresql/)
+
 ## Throughout the entire application
 Developers can find more information about this Application on my Github repository. I have written a series of two repositories on Spring Boot and Angular, here are the links:
 - [Front-end developed using Angular 10](https://github.com/Rayen-cherni/Front-end-Telework-Platform)
