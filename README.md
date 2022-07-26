@@ -59,3 +59,5 @@ Its as important to document(as is the development) and make your APIs available
 Developers can find more information about this Application on my Github repository. I have written a series of two repositories on Spring Boot and Angular, here are the links:
 - [Front-end developed using Angular 10](https://github.com/Rayen-cherni/Front-end-Telework-Platform)
 - [Back-end developed using Spring boot](https://github.com/Rayen-cherni/Back-end-Telework-Platform)
+## Further information
+To get more information on the Bazart project you can contact me on [LinkedIn](https://www.linkedin.com/in/rayen-cherni-181b97198/) or by Email rayen.cherni@eniso.u-sousse.tn.<br/>
