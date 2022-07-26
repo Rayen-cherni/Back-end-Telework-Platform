@@ -42,7 +42,7 @@ Following libraries were used during the development of this starter kit :
 - **Swagger** : API documentation
 - **JWT** : Authentication mechanism for REST APIs
 
-## installation 
+## Installation 
 Create the postgres Database using 
 ``` 
 sudo -u postgres psql
