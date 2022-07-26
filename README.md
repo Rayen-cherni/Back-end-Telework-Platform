@@ -1,6 +1,4 @@
-# TELEWORK PLATFORM
-
-## Introdution
+## Project Summary
 Proxym's Telwork platform offer a solution for managing teleworking, compliance with health standards, optimising workspace and planning the presence of employees in the office according to configurable priority rules. 
 
 ## Features
